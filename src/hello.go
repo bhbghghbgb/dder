@@ -9,8 +9,9 @@ import (
 func main() {
 	fmt.Println("Hello, World!")
 
-	testAPICall()
-	testGameAPICall()
+	// testAPICall()
+	// testGameAPICall()
+	FileTest()
 }
 
 type Post struct {
