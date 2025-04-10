@@ -1,13 +1,12 @@
-package main
+Creating a customized out order Golang channel.
 
-import (
-	"container/heap"
-	"fmt"
-	"sync"
+### Context
 
-	"github.com/rs/zerolog/log"
-)
+In this example, I use a [Priority Queue](https://en.wikipedia.org/wiki/Priority_queue) order. The default Go `chan` is FIFO, which doesn't allow prioritization. To overcome this limitation, I tried building a `ChannelizedPriorityQueue` exposing an `In` and `Out` channel (Not sure if it's possible to [overload the operator](https://en.wikipedia.org/wiki/Operator_overloading) `<-chan` and `chan<-`).
 
+1. Using the example from [`container/heap`'s documentation](https://pkg.go.dev/container/heap#example-package-PriorityQueue). Code a generic `Priority Queue`.
+
+```go
 // https://pkg.go.dev/container/heap#example-package-PriorityQueue
 
 // Item represents a generic item with a priority.
@@ -57,6 +56,29 @@ func (pq *UnboundedPriorityQueue[T]) update(item *Item[T], value T, priority int
 	heap.Fix(pq, item.index)
 }
 
+// Test the priority queue if you need
+func priorityQueueTest() {
+	// Create a new priority queue
+	pq := make(UnboundedPriorityQueue[string], 0)
+	heap.Init(&pq)
+
+	// Add items to the priority queue
+	heap.Push(&pq, &Item[string]{Value: "low priority", Priority: 1})
+	heap.Push(&pq, &Item[string]{Value: "medium priority", Priority: 10})
+	heap.Push(&pq, &Item[string]{Value: "high priority", Priority: 5})
+
+	// Pop items from the priority queue
+	fmt.Println("Priority queue contents (highest priority first):")
+	for pq.Len() > 0 {
+		item := heap.Pop(&pq).(*Item[string])
+		fmt.Printf("Value: %s, Priority: %d\n", item.Value, item.Priority)
+	}
+}
+```
+
+2. Code a wrapper that adds synchronization, taking hint from [various blocking queue implementation](https://www.google.com/search?q=golang+blocking+queue)
+
+```go
 // https://github.com/adrianbrad/queue/blob/main/blocking.go
 // https://github.com/theodesp/blockingQueues/blob/master/blockingQueue.go
 
@@ -124,10 +146,13 @@ func (pqw *BlockingPriorityQueue[T]) Close() {
 	if !pqw.closed {
 		pqw.closed = true
 		pqw.co.Broadcast() // Wake up all waiting goroutines
-		log.Debug().Msg("BlockingPriorityQueue closed")
 	}
 }
+```
 
+3. Code another wrapper that expose the `In` and `Out` channels to work with, taking hint from [various customized channels](https://www.google.com/search?q=golang+unbounded+channel)
+
+```go
 // https://github.com/golang-design/chann/blob/main/chann.go
 
 // ChannelizedPriorityQueue wraps a BlockingPriorityQueue and provides in and out channels
@@ -198,3 +223,98 @@ func (cpq *ChannelizedPriorityQueue[T]) Close() {
 
 	// The out channel will be closed in transferToOut
 }
+```
+
+I then used this priority queue as a "middleman" between two channels to illustrate the problem I am facing. Here is the driver code using this priority-queue custom channel:
+
+```go
+func main() {
+	// Using ChannelizedPriorityQueue as a middleman between two channels here to illustrate
+	// how ChannelizedPriorityQueue will be sent items and be received items from
+
+	stringsFromProducer := make(chan string)
+	// Start StringProducer
+	go func() {
+		StringProducer(stringsFromProducer)
+		close(stringsFromProducer) // Close the channel after StringProducer is done
+		log.Debug().Msg("pathsFromProducer closed")
+	}()
+
+	// Create a ChannelizedPriorityQueue to act as a middleman
+	cpq := NewChannelizedPriorityQueue[string]()
+
+	// Goroutine to transfer strings from the StringProducer to the ChannelizedPriorityQueue
+	go func() {
+		for path := range stringsFromProducer {
+			item := &Item[string]{Value: path, Priority: len(path)} // Demo priority
+			cpq.In() <- item
+		}
+		cpq.Close() // when stringsFromProducer is closed, close ChannelizedPriorityQueue also
+		log.Debug().Msg("ChannelizedPriorityQueue closed")
+	}()
+
+	stringsToWorker := make(chan string)
+	// Goroutine to transfer strings from the ChannelizedPriorityQueue to the workers
+	go func() {
+		for item := range cpq.Out() {
+			stringsToWorker <- item.Value // Send the path to the workers
+		}
+		close(stringsToWorker) // Close it when ChannelizedPriorityQueue is closed
+		log.Debug().Msg("pathsToWorker closed")
+	}()
+
+	numWorkers := 4 // Number of workers
+	var wg sync.WaitGroup
+	// Launch worker goroutines
+	for range numWorkers {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			StringConsumer(stringsToWorker)
+		}()
+	}
+	wg.Wait() // Wait for all workers to finish
+}
+```
+
+For completeness, here are my simplified `StringConsumer` and `StringProducer` functions:
+
+```go
+func StringProducer(strings <-chan string) {
+    for range 5 {
+		str := rand.Text()
+		log.Info().Str("str", str).Msg("Sending string")
+		strings <- str
+	}
+}
+
+func StringConsumer() {
+    log.Info().Str("str", path).Msg("Consuming string")
+}
+```
+
+### Problem:
+
+`StringProducer` sends all strings, but `StringConsumer`s do not consume all strings some times.
+
+Example output:
+```
+12:13AM INF Sending string str=UFG3FBPBKFZKAY3IGVSLJCTU73
+12:13AM INF Sending string str=CQXTC4YTFUEXQIQCHVIWEXSN4Q
+12:13AM INF Consuming string str=UFG3FBPBKFZKAY3IGVSLJCTU73
+12:13AM INF Sending string str=ABFG6ZXKDU53DPGXK3MRA6VUTX
+12:13AM INF Sending string str=L54QCVHLFBEMD6UQ2QXPMN6NST
+12:13AM INF Consuming string str=CQXTC4YTFUEXQIQCHVIWEXSN4Q
+12:13AM INF Sending string str=MWXBDAOQSWH4AFOPZ7QKQQSC4K
+12:13AM DBG pathsFromProducer closed
+12:13AM INF Consuming string str=ABFG6ZXKDU53DPGXK3MRA6VUTX
+12:13AM DBG ChannelizedPriorityQueue transferToQueue exited
+12:13AM DBG ChannelizedPriorityQueue in channel closed
+12:13AM DBG BlockingPriorityQueue closed
+12:13AM DBG ChannelizedPriorityQueue closed
+12:13AM DBG BlockingPriorityQueue Pop() closed
+12:13AM DBG ChannelizedPriorityQueue out channel closed
+12:13AM DBG pathsToWorker closed
+```
+
+Where did I go wrong?

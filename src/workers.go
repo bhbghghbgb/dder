@@ -88,13 +88,13 @@ func FileWorker(paths <-chan string, updateSize func(string, int64), updateMD5 f
 			md5Hash := hex.EncodeToString(hash.Sum(nil))
 			updateMD5(path, md5Hash)
 		}()
+		// log.Info().Str("str", path).Msg("Consuming string")
 	}
 }
 
 // Launch the file walker goroutine
 func FileWalker(root string, paths chan<- string, addFile func(string)) {
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
-		log.Debug().Str("path", path).Msg("Walking")
 		if err != nil {
 			log.Warn().Str("path", path).Err(err).Msg("Error accessing path")
 			return nil // Continue walking despite the error
@@ -108,6 +108,11 @@ func FileWalker(root string, paths chan<- string, addFile func(string)) {
 	if err != nil {
 		log.Error().Err(err).Msg("Error walking the directory")
 	}
+	// for range 5 {
+	// 	str := rand.Text()
+	// 	log.Info().Str("str", str).Msg("Sending string")
+	// 	paths <- str
+	// }
 }
 
 func FileTest() {
@@ -126,35 +131,39 @@ func FileTest() {
 		log.Info().Str("file", path).Str("md5", md5).Msg("Updated file MD5")
 	}
 
-	paths := make(chan string, 100) // Buffered channel
+	// Using ChannelizedPriorityQueue as a middleman between two channels here to illustrate
+	// how ChannelizedPriorityQueue will be sent items and and receive items from
 
+	pathsFromProducer := make(chan string)
 	// Start FileWalker
 	go func() {
-		FileWalker(".", paths, addFile)
-		close(paths) // Close the channel after FileWalker is done
+		FileWalker(".", pathsFromProducer, addFile)
+		close(pathsFromProducer) // Close the channel after FileWalker is done
+		log.Debug().Msg("pathsFromProducer closed")
 	}()
 
-	// Create a BlockingPriorityQueue to act as a middleman
-	bpq := NewBlockingPriorityQueue[string]()
+	// Create a ChannelizedPriorityQueue to act as a middleman
+	cpq := NewChannelizedPriorityQueue[string]()
 
-	// Goroutine to transfer paths from the FileWalker to the BlockingPriorityQueue
+	// Goroutine to transfer paths from the FileWalker to the ChannelizedPriorityQueue
 	go func() {
-		for path := range paths {
-			item := &Item[string]{Value: path, Priority: 1} // Default priority
-			bpq.Push(item)
+		for path := range pathsFromProducer {
+			item := &Item[string]{Value: path, Priority: len(path)} // Demo priority
+			cpq.In() <- item
 		}
+		cpq.Close() // when pathsFromProducer is closed, close ChannelizedPriorityQueue also
+		log.Debug().Msg("ChannelizedPriorityQueue closed")
 	}()
 
-	paths2 := make(chan string, 100) // Buffered channel
-
-	// Goroutine to transfer paths from the BlockingPriorityQueue to the workers
+	pathsToWorker := make(chan string)
+	// Goroutine to transfer paths from the ChannelizedPriorityQueue to the workers
 	go func() {
-		for {
-			item := bpq.Pop()    // Deadlock!
-			paths2 <- item.Value // Send the path to the workers
+		for item := range cpq.Out() {
+			pathsToWorker <- item.Value // Send the path to the workers
 		}
-		// close(paths2) // Close the channel after all items are processed
-		// Can't close because no way to tell if the queue won't be sending more
+		close(pathsToWorker) // Close it when ChannelizedPriorityQueue is closed
+		log.Debug().Msg("pathsToWorker closed")
+
 	}()
 
 	numWorkers := 4 // Number of workers
@@ -164,7 +173,7 @@ func FileTest() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			FileWorker(paths2, updateSize, updateMD5)
+			FileWorker(pathsToWorker, updateSize, updateMD5)
 		}()
 	}
 	wg.Wait() // Wait for all workers to finish
