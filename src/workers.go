@@ -2,11 +2,13 @@ package main
 
 import (
 	"crypto/md5"
-	"fmt"
+	"encoding/hex"
 	"io"
 	"os"
 	"path/filepath"
 	"sync"
+
+	"github.com/rs/zerolog/log"
 )
 
 // FileInfo struct to hold file properties
@@ -65,14 +67,14 @@ func FileWorker(paths <-chan string, updateSize func(string, int64), updateMD5 f
 		func() {
 			file, err := os.Open(path)
 			if err != nil {
-				fmt.Println("Error opening file:", path, err)
+				log.Warn().Str("path", path).Err(err).Msg("Error opening file")
 				return
 			}
 			defer file.Close()
 
 			fileStat, err := file.Stat()
 			if err != nil {
-				fmt.Println("Error getting file size:", path, err)
+				log.Warn().Str("path", path).Err(err).Msg("Error getting file size")
 				return
 			}
 			size := fileStat.Size()
@@ -80,10 +82,10 @@ func FileWorker(paths <-chan string, updateSize func(string, int64), updateMD5 f
 
 			hash := md5.New()
 			if _, err := io.Copy(hash, file); err != nil {
-				fmt.Println("Error calculating MD5:", path, err)
+				log.Warn().Str("path", path).Err(err).Msg("Error calculating MD5")
 				return
 			}
-			md5Hash := fmt.Sprintf("%x", hash.Sum(nil))
+			md5Hash := hex.EncodeToString(hash.Sum(nil))
 			updateMD5(path, md5Hash)
 		}()
 	}
@@ -92,8 +94,9 @@ func FileWorker(paths <-chan string, updateSize func(string, int64), updateMD5 f
 // Launch the file walker goroutine
 func FileWalker(root string, paths chan<- string, addFile func(string)) {
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		log.Debug().Str("path", path).Msg("Walking")
 		if err != nil {
-			fmt.Println("Error accessing path:", path, err)
+			log.Warn().Str("path", path).Err(err).Msg("Error accessing path")
 			return nil // Continue walking despite the error
 		}
 		if !info.IsDir() {
@@ -103,29 +106,27 @@ func FileWalker(root string, paths chan<- string, addFile func(string)) {
 		return nil
 	})
 	if err != nil {
-		fmt.Println("Error walking the directory:", err)
+		log.Error().Err(err).Msg("Error walking the directory")
 	}
 }
 
 func FileTest() {
-	paths := make(chan string, 100) // Buffered channel
-	numWorkers := 4                 // Number of workers
-	var wg sync.WaitGroup
-
 	// Log file discovery
 	addFile := func(path string) {
-		fmt.Println("Discovered file:", path)
+		log.Info().Str("file", path).Msg("Discovered file")
 	}
 
 	// Log size updates
 	updateSize := func(path string, size int64) {
-		fmt.Printf("Updated size for %s: %d bytes\n", path, size)
+		log.Info().Str("file", path).Int64("size", size).Msg("Updated file size")
 	}
 
 	// Log MD5 updates
 	updateMD5 := func(path string, md5 string) {
-		fmt.Printf("Updated MD5 for %s: %s\n", path, md5)
+		log.Info().Str("file", path).Str("md5", md5).Msg("Updated file MD5")
 	}
+
+	paths := make(chan string, 100) // Buffered channel
 
 	// Start FileWalker
 	go func() {
@@ -133,12 +134,37 @@ func FileTest() {
 		close(paths) // Close the channel after FileWalker is done
 	}()
 
+	// Create a BlockingPriorityQueue to act as a middleman
+	bpq := NewBlockingPriorityQueue[string]()
+
+	// Goroutine to transfer paths from the FileWalker to the BlockingPriorityQueue
+	go func() {
+		for path := range paths {
+			item := &Item[string]{Value: path, Priority: 1} // Default priority
+			bpq.Push(item)
+		}
+	}()
+
+	paths2 := make(chan string, 100) // Buffered channel
+
+	// Goroutine to transfer paths from the BlockingPriorityQueue to the workers
+	go func() {
+		for {
+			item := bpq.Pop()    // Deadlock!
+			paths2 <- item.Value // Send the path to the workers
+		}
+		// close(paths2) // Close the channel after all items are processed
+		// Can't close because no way to tell if the queue won't be sending more
+	}()
+
+	numWorkers := 4 // Number of workers
+	var wg sync.WaitGroup
 	// Launch worker goroutines
 	for range numWorkers {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			FileWorker(paths, updateSize, updateMD5)
+			FileWorker(paths2, updateSize, updateMD5)
 		}()
 	}
 	wg.Wait() // Wait for all workers to finish

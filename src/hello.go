@@ -1,13 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"resty.dev/v3"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
+
+	log.Info().Msg("Hello, World!")
 
 	// testAPICall()
 	// testGameAPICall()
@@ -31,9 +35,9 @@ func testAPICall() {
 		Get("https://jsonplaceholder.typicode.com/posts")
 
 	if err != nil {
-		fmt.Println("Error:", err)
+		log.Err(err).Msg("Cannot reach Internet jsonplaceholder")
 		return
 	}
 
-	fmt.Printf("Parsed Response: %+v\n", posts)
+	log.Info().Msgf("Parsed Response: %+v\n", posts)
 }
