@@ -1,0 +1,144 @@
+{
+  "retcode": 0,
+  "message": "OK",
+  "data": {
+    "launch_configs": [
+      {
+        "game": {
+          "id": "U5hbdsT9W7",
+          "biz": "nap_global"
+        },
+        "exe_file_name": "ZenlessZoneZero.exe",
+        "installation_dir": "ZenlessZoneZero Game",
+        "audio_pkg_scan_dir": "ZenlessZoneZero_Data/Persistent/audio_lang_launcher",
+        "audio_pkg_res_dir": "ZenlessZoneZero_Data/StreamingAssets/Audio",
+        "audio_pkg_cache_dir": "ZenlessZoneZero_Data/Persistent/Audio",
+        "game_cached_res_dir": "ZenlessZoneZero_Data/Persistent",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%userprofile%/AppData/LocalLow/miHoYo/ZenlessZoneZero",
+        "game_crash_file_gen_dir": "%userprofile%\\AppData\\Local\\Temp\\miHoYo\\ZenlessZoneZero\\Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_CHUNK",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "4ziysqXOQ8",
+          "biz": "hkrpg_global"
+        },
+        "exe_file_name": "StarRail.exe",
+        "installation_dir": "Star Rail Games",
+        "audio_pkg_scan_dir": "StarRail_Data/Persistent/AudioLaucherRecord.txt",
+        "audio_pkg_res_dir": "StarRail_Data/Persistent/Audio/AudioPackage/Windows",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "StarRail_Data/Persistent",
+        "game_screenshot_dir": "StarRail_Data/ScreenShots",
+        "game_log_gen_dir": "",
+        "game_crash_file_gen_dir": "%temp%/Cognosphere/Star Rail/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "gopR6Cufr3",
+          "biz": "hk4e_global"
+        },
+        "exe_file_name": "GenshinImpact.exe",
+        "installation_dir": "Genshin Impact game",
+        "audio_pkg_scan_dir": "GenshinImpact_Data/Persistent/audio_lang_14",
+        "audio_pkg_res_dir": "GenshinImpact_Data/StreamingAssets/AudioAssets",
+        "audio_pkg_cache_dir": "GenshinImpact_Data/Persistent/AudioAssets",
+        "game_cached_res_dir": "GenshinImpact_Data/Persistent",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%userprofile%/AppData/LocalLow/miHoYo/Genshin Impact",
+        "game_crash_file_gen_dir": "%userprofile%/AppData/Local/Temp",
+        "default_download_mode": "DOWNLOAD_MODE_CHUNK",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "5TIVvvcwtM",
+          "biz": "bh3_global"
+        },
+        "exe_file_name": "BH3.exe",
+        "installation_dir": "Honkai Impact 3rd game",
+        "audio_pkg_scan_dir": "",
+        "audio_pkg_res_dir": "",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3",
+        "game_crash_file_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "g0mMIvshDb",
+          "biz": "bh3_global"
+        },
+        "exe_file_name": "BH3.exe",
+        "installation_dir": "Houkai3rd game",
+        "audio_pkg_scan_dir": "",
+        "audio_pkg_res_dir": "",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3",
+        "game_crash_file_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "uxB4MC7nzC",
+          "biz": "bh3_global"
+        },
+        "exe_file_name": "BH3.exe",
+        "installation_dir": "Honkai Impact 3rd kr game",
+        "audio_pkg_scan_dir": "",
+        "audio_pkg_res_dir": "",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3",
+        "game_crash_file_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "bxPTXSET5t",
+          "biz": "bh3_global"
+        },
+        "exe_file_name": "BH3.exe",
+        "installation_dir": "Honkai Impact 3 game",
+        "audio_pkg_scan_dir": "",
+        "audio_pkg_res_dir": "",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3",
+        "game_crash_file_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      },
+      {
+        "game": {
+          "id": "wkE5P5WsIf",
+          "biz": "bh3_global"
+        },
+        "exe_file_name": "BH3.exe",
+        "installation_dir": "Honkai Impact 3rd asia game",
+        "audio_pkg_scan_dir": "",
+        "audio_pkg_res_dir": "",
+        "audio_pkg_cache_dir": "",
+        "game_cached_res_dir": "",
+        "game_screenshot_dir": "ScreenShot",
+        "game_log_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3",
+        "game_crash_file_gen_dir": "%systemdrive%/Users/%username%/AppData/LocalLow/miHoYo/崩坏3/Crashes",
+        "default_download_mode": "DOWNLOAD_MODE_FILE",
+        "enable_customer_service": true
+      }
+    ]
+  }
+}

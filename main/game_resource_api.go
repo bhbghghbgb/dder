@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -12,29 +11,8 @@ import (
 // GameId represents the Game ID
 type GameId struct {
 	ID      string `json:"id"`  // Game ID
-	GameBiz Biz    `json:"biz"` // Game business (uses custom Biz type), In original C# code, this is GameBiz, which is complex. For now, treat as a generic object.
+	GameBiz string `json:"biz"` // Game business.
 
-}
-
-// Biz is a custom struct to represent a string field
-type Biz struct {
-	Value string
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for Biz
-func (b *Biz) UnmarshalJSON(data []byte) error {
-	// Decode the JSON string into the struct's Value field
-	var value string
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	b.Value = value
-	return nil
-}
-
-// MarshalJSON implements the json.Marshaler interface (optional, for encoding back to JSON)
-func (b Biz) MarshalJSON() ([]byte, error) {
-	return json.Marshal(b.Value)
 }
 
 // GamePackage represents the game installation package information
