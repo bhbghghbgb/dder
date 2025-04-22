@@ -79,7 +79,7 @@ func pkgOutWorker(results <-chan FileInfo, outFile *os.File) {
 		// Convert hash bytes to hex strings for JSON output.
 		out := FileInfoOutput{
 			FilePath:  filepath.ToSlash(result.FilePath),    // Assign the file path. Convert to forward slashes for cross-platform consistency.
-			MD5:       hex.EncodeToString(result.MD5),       // Convert the MD5 hash (byte array) to a hexadecimal string.
+			Md5Hash:   hex.EncodeToString(result.Md5Hash),   // Convert the MD5 hash (byte array) to a hexadecimal string.
 			Xxh64Hash: hex.EncodeToString(result.Xxh64Hash), // Convert the XXH64 hash (byte array) to a hexadecimal string.
 			Size:      result.Size,                          // Assign the file size.
 		}
@@ -91,7 +91,7 @@ func pkgOutWorker(results <-chan FileInfo, outFile *os.File) {
 		fmt.Fprintln(outFile, string(jsonBytes)) // Write the JSON string to the output file, adding a newline character.
 		log.Info().
 			Str("file", out.FilePath).
-			Str("md5", out.MD5).
+			Str("md5", out.Md5Hash).
 			Str("xxh64", out.Xxh64Hash).
 			Int64("size", out.Size).
 			Msg("Written")

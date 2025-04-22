@@ -20,7 +20,7 @@ import (
 // but are mapped to the requested JSON field names using `json:"..."` tags.
 type FileInfo struct {
 	FilePath  string // Relative path of the file from the input directory
-	MD5       []byte // MD5 hash as a byte slice
+	Md5Hash   []byte // MD5 hash as a byte slice
 	Xxh64Hash []byte // XXH64 hash as a byte slice
 	Size      int64  // Size of the file in bytes
 }
@@ -30,16 +30,16 @@ type FileInfo struct {
 // to be directly included in the JSON output.
 type FileInfoOutput struct {
 	FilePath  string `json:"remoteName"` // Path of the file, relative to the input directory
-	MD5       string `json:"md5"`        // MD5 hash of the file as a hexadecimal string
+	Md5Hash   string `json:"md5"`        // MD5 hash of the file as a hexadecimal string
 	Xxh64Hash string `json:"hash"`       // XXH64 hash of the file as a hexadecimal string
 	Size      int64  `json:"fileSize"`   // Size of the file in bytes
 }
 
 // Args is the main struct that defines the top-level commands and global options.
 type Args struct {
-	Threads int         `arg:"-w,--workers" default:"2" help:"Number of worker goroutines for hashing"`
-	Dump    *DumpCmd    `arg:"subcommand:dump"`
-	Compare *CompareCmd `arg:"subcommand:compare"`
+	Threads int        `arg:"-w,--workers" default:"2" help:"Number of worker goroutines for hashing"`
+	Dump    *DumpCmd   `arg:"subcommand:dump"`
+	Verify  *VerifyCmd `arg:"subcommand:verify"`
 }
 
 // DumpCmd defines the arguments for the "dump" subcommand.
@@ -48,12 +48,11 @@ type DumpCmd struct {
 	OutputFile string `arg:"-o,--output" default:"package.jsonl" help:"Output file (default: package.jsonl)"`
 }
 
-// CompareCmd defines the arguments for the "compare" subcommand.
-type CompareCmd struct {
+// VerifyCmd defines the arguments for the "verify" subcommand.
+type VerifyCmd struct {
 	InputDir            string   `arg:"positional,required" help:"Input directory to scan"`
 	PkgFiles            []string `arg:"-f,--pkg-file" help:"List of additional package files to use"`
 	CheckInputDirForPkg bool     `arg:"-c,--check-input" help:"Look for pkg files in input directory"`
-	Delete              bool     `arg:"--rm" help:"Delete extra files (files not exist in pkgs) in input dir"`
 }
 
 func main() {
@@ -71,6 +70,8 @@ func main() {
 	switch {
 	case args.Dump != nil:
 		subcommandDump(&args, args.Dump)
+	case args.Verify != nil:
+		subcommandVerify(&args, args.Verify)
 	}
 }
 
@@ -140,10 +141,10 @@ func processFile(baseDir string, path string) (FileInfo, error) {
 	}
 
 	// Return a FileInfo struct containing the calculated metadata.
-	log.Trace().Str("file", relPath).Msg("Processed")
+	log.Trace().Str("file", relPath).Msg("Done compare")
 	return FileInfo{
 		FilePath:  relPath,
-		MD5:       md5Hash,   // MD5 hash as a byte array.
+		Md5Hash:   md5Hash,   // MD5 hash as a byte array.
 		Xxh64Hash: xxh64Hash, // XXH64 hash as a byte array.
 		Size:      size,      // File size in bytes.
 	}, nil

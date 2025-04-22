@@ -1,12 +1,204 @@
-Creating a customized out order Golang channel.
+package main
 
-### Context
+import (
+	"container/heap"
+	"fmt"
+	"log"
+	"slices"
+	"sync"
+	"time"
+)
 
-In this example, I use a [Priority Queue](https://en.wikipedia.org/wiki/Priority_queue) order. The default Go `chan` is FIFO, which doesn't allow prioritization. To overcome this limitation, I tried building a `ChannelizedPriorityQueue` exposing an `In` and `Out` channel (Not sure if it's possible to [overload the operator](https://en.wikipedia.org/wiki/Operator_overloading) `<-chan` and `chan<-`).
+func main() {
+	// Define test slices
+	input1 := []int{5, 3, 8, 1, 7} // First slice of integers to push
+	input2 := []int{4, 9, 2}       // Second slice to pop and push simultaneously
 
-1. Using the example from [`container/heap`'s documentation](https://pkg.go.dev/container/heap#example-package-PriorityQueue). Code a generic `Priority Queue`.
+	// Test UnboundedPriorityQueue
+	fmt.Println("Testing UnboundedPriorityQueue...")
+	resultUnbounded := TestUnboundedPriorityQueue(input1, input2)
+	fmt.Println("Popped:", resultUnbounded)
+	expectedtUnbounded := slices.Equal(resultUnbounded, []int{8, 7, 5, 9, 4, 3, 2, 1})
+	fmt.Println("Expected order:", expectedtUnbounded)
 
-```go
+	// Test BlockingPriorityQueue
+	fmt.Println("\nTesting BlockingPriorityQueue...")
+	resultBlocking := TestBlockingPriorityQueue(input1, input2)
+	fmt.Println("Popped:", resultBlocking)
+	expectedBlocking := slices.Equal(resultBlocking, []int{8, 7, 5, 9, 4, 3, 2, 1})
+	fmt.Println("Expected order:", expectedBlocking)
+
+	// Test ChannelizedPriorityQueue sequentially
+	fmt.Println("\nTesting TestChannelizedPriorityQueueSequential...")
+	resultChannelized := TestChannelizedPriorityQueueSequential(input1, input2)
+	fmt.Println("Popped:", resultChannelized)
+	// first element (5) sent to out channel first, so it is received first
+	expectedChannelized := slices.Equal(resultChannelized, []int{5, 8, 7, 9, 4, 3, 2, 1})
+	fmt.Println("Expected order:", expectedChannelized)
+
+	// Test ChannelizedPriorityQueue in parallel
+	fmt.Println("\nTesting TestChannelizedPriorityQueueParallel...")
+	resultChannelizedParallel := TestChannelizedPriorityQueueParallel(input1, input2)
+	fmt.Println("Popped:", resultChannelizedParallel)
+	// first element (5) sent to out channel first, so it is received first
+	// can only expect first len(input2) elements to be same everytime
+	expectedChannelizedParallel := slices.Equal(resultChannelizedParallel[:3], []int{5, 8, 7})
+	fmt.Println("Expected order:", expectedChannelizedParallel)
+	// Check if the size of the popped results matches expected
+	expectedSize := len(input1)+len(input2) == len(resultChannelizedParallel)
+	fmt.Println("Expected size:", expectedSize)
+}
+
+func TestUnboundedPriorityQueue(input1 []int, input2 []int) []int {
+	pq := make(UnboundedPriorityQueue[int], 0)
+
+	// Push all elements from the first input slice
+	for _, value := range input1 {
+		item := &Item[int]{Value: value, Priority: value}
+		heap.Push(&pq, item)
+	}
+
+	// Pop len(input2) elements
+	results := []int{}
+	for range input2 {
+		poppedItem := heap.Pop(&pq).(*Item[int])
+		results = append(results, poppedItem.Value)
+	}
+
+	// Push all elements from the second input slice
+	for _, value := range input2 {
+		item := &Item[int]{Value: value, Priority: value}
+		heap.Push(&pq, item)
+	}
+
+	// Pop all remaining elements
+	for pq.Len() > 0 {
+		poppedItem := heap.Pop(&pq).(*Item[int])
+		results = append(results, poppedItem.Value)
+	}
+
+	return results
+}
+
+func TestBlockingPriorityQueue(input1 []int, input2 []int) []int {
+	bpq := NewBlockingPriorityQueue[int]()
+
+	// Push all elements from the first input slice
+	for _, value := range input1 {
+		item := &Item[int]{Value: value, Priority: value}
+		bpq.Push(item)
+	}
+
+	// Pop len(input2) elements
+	results := []int{}
+	for range input2 {
+		poppedItem, err := bpq.Pop()
+		if err != nil {
+			log.Println("Error popping item from BlockingPriorityQueue:", err)
+			continue
+		}
+		results = append(results, poppedItem.Value)
+	}
+
+	// Push all elements from the second input slice
+	for _, value := range input2 {
+		item := &Item[int]{Value: value, Priority: value}
+		bpq.Push(item)
+	}
+
+	// Pop all remaining elements
+	for bpq.Len() > 0 {
+		poppedItem, err := bpq.Pop()
+		if err != nil {
+			log.Println("Error popping item from BlockingPriorityQueue:", err)
+			continue
+		}
+		results = append(results, poppedItem.Value)
+	}
+
+	return results
+}
+
+func TestChannelizedPriorityQueueSequential(input1 []int, input2 []int) []int {
+	cpq := NewChannelizedPriorityQueue[int]()
+
+	// Push all elements from the first input slice
+	for _, value := range input1 {
+		item := &Item[int]{Value: value, Priority: value}
+		cpq.In() <- item
+	}
+
+	// Pop len(input2) elements
+	results := []int{}
+	for range input2 {
+		poppedItem := <-cpq.Out()
+		results = append(results, poppedItem.Value)
+	}
+
+	// Push all elements from the second input slice
+	for _, value := range input2 {
+		item := &Item[int]{Value: value, Priority: value}
+		cpq.In() <- item
+	}
+
+	cpq.Close()
+
+	// Wait for the internal goroutines to transfer all elements to the queue
+	time.Sleep(time.Second)
+
+	// Pop all remaining elements
+	for item := range cpq.Out() {
+		results = append(results, item.Value)
+	}
+
+	return results
+}
+
+func TestChannelizedPriorityQueueParallel(input1 []int, input2 []int) []int {
+	cpq := NewChannelizedPriorityQueue[int]()
+
+	// Push all elements from the first input slice
+	for _, value := range input1 {
+		item := &Item[int]{Value: value, Priority: value}
+		cpq.In() <- item
+	}
+
+	// Pop len(input2) elements
+	results := []int{}
+	for range input2 {
+		poppedItem := <-cpq.Out()
+		results = append(results, poppedItem.Value)
+	}
+
+	// Push all elements from the second input slice
+	for _, value := range input2 {
+		item := &Item[int]{Value: value, Priority: value}
+		cpq.In() <- item
+	}
+
+	cpq.Close()
+
+	var wg sync.WaitGroup
+	var mu sync.Mutex // Mutex for thread-safe appending to the results slice
+
+	// Spawn four workers
+	numWorkers := 4
+	wg.Add(numWorkers)
+	for range numWorkers {
+		go func() {
+			defer wg.Done()
+			for item := range cpq.Out() {
+				mu.Lock()
+				results = append(results, item.Value)
+				mu.Unlock()
+			}
+		}()
+	}
+
+	wg.Wait()
+	return results
+}
+
 // https://pkg.go.dev/container/heap#example-package-PriorityQueue
 
 // Item represents a generic item with a priority.
@@ -49,36 +241,6 @@ func (pq *UnboundedPriorityQueue[T]) Pop() any {
 	return item
 }
 
-// update modifies the priority of an Item in the queue.
-func (pq *UnboundedPriorityQueue[T]) update(item *Item[T], value T, priority int) {
-	item.Value = value
-	item.Priority = priority
-	heap.Fix(pq, item.index)
-}
-
-// Test the priority queue if you need
-func priorityQueueTest() {
-	// Create a new priority queue
-	pq := make(UnboundedPriorityQueue[string], 0)
-	heap.Init(&pq)
-
-	// Add items to the priority queue
-	heap.Push(&pq, &Item[string]{Value: "low priority", Priority: 1})
-	heap.Push(&pq, &Item[string]{Value: "medium priority", Priority: 10})
-	heap.Push(&pq, &Item[string]{Value: "high priority", Priority: 5})
-
-	// Pop items from the priority queue
-	fmt.Println("Priority queue contents (highest priority first):")
-	for pq.Len() > 0 {
-		item := heap.Pop(&pq).(*Item[string])
-		fmt.Printf("Value: %s, Priority: %d\n", item.Value, item.Priority)
-	}
-}
-```
-
-2. Code a wrapper that adds synchronization, taking hint from [various blocking queue implementation](https://www.google.com/search?q=golang+blocking+queue)
-
-```go
 // https://github.com/adrianbrad/queue/blob/main/blocking.go
 // https://github.com/theodesp/blockingQueues/blob/master/blockingQueue.go
 
@@ -130,7 +292,6 @@ func (pqw *BlockingPriorityQueue[T]) Pop() (*Item[T], error) {
 	}
 
 	if pqw.closed && pqw.pq.Len() == 0 {
-		log.Debug().Msg("BlockingPriorityQueue Pop() closed")
 		return nil, fmt.Errorf("queue is closed")
 	}
 
@@ -148,26 +309,22 @@ func (pqw *BlockingPriorityQueue[T]) Close() {
 		pqw.co.Broadcast() // Wake up all waiting goroutines
 	}
 }
-```
 
-3. Code another wrapper that expose the `In` and `Out` channels to work with, taking hint from [various customized channels](https://www.google.com/search?q=golang+unbounded+channel)
-
-```go
 // https://github.com/golang-design/chann/blob/main/chann.go
 
 // ChannelizedPriorityQueue wraps a BlockingPriorityQueue and provides in and out channels
 // for interacting with the queue using a producer-consumer model.
 type ChannelizedPriorityQueue[T any] struct {
-	in  chan *Item[T]             // Buffered channel for incoming items
-	out chan *Item[T]             // Unbuffered channel for outgoing items
+	in  chan *Item[T]             // Channel for incoming items
+	out chan *Item[T]             // Channel for outgoing items
 	bpq *BlockingPriorityQueue[T] // Internal thread-safe priority queue
 }
 
 // NewChannelizedPriorityQueue initializes a new ChannelizedPriorityQueue.
 func NewChannelizedPriorityQueue[T any]() *ChannelizedPriorityQueue[T] {
 	cpq := &ChannelizedPriorityQueue[T]{
-		in:  make(chan *Item[T], 16), // Buffered channel with size 16
-		out: make(chan *Item[T]),     // Unbuffered channel
+		in:  make(chan *Item[T]),
+		out: make(chan *Item[T]),
 		bpq: NewBlockingPriorityQueue[T](),
 	}
 
@@ -185,7 +342,6 @@ func (cpq *ChannelizedPriorityQueue[T]) transferToQueue() {
 	for item := range cpq.in {
 		cpq.bpq.Push(item) // Push the item to the internal priority queue
 	}
-	log.Debug().Msg("ChannelizedPriorityQueue transferToQueue exited")
 	// When the in channel is closed, and exhausted of all items, we can Close the bpq queue
 	// transferToOut will still receive items until also exhausting the internal queue
 	cpq.bpq.Close()
@@ -197,7 +353,6 @@ func (cpq *ChannelizedPriorityQueue[T]) transferToOut() {
 		item, err := cpq.bpq.Pop() // Pop the highest-priority item from the internal queue
 		if err != nil {            // Closed
 			close(cpq.out)
-			log.Debug().Msg("ChannelizedPriorityQueue out channel closed")
 			return
 		}
 		cpq.out <- item // Send the item to the out channel
@@ -219,102 +374,6 @@ func (cpq *ChannelizedPriorityQueue[T]) Out() <-chan *Item[T] {
 func (cpq *ChannelizedPriorityQueue[T]) Close() {
 	// Close the in channel to stop accepting new items, transferToQueue will call bpq.Close()
 	close(cpq.in)
-	log.Debug().Msg("ChannelizedPriorityQueue in channel closed")
 
 	// The out channel will be closed in transferToOut
 }
-```
-
-I then used this priority queue as a "middleman" between two channels to illustrate the problem I am facing. Here is the driver code using this priority-queue custom channel:
-
-```go
-func main() {
-	// Using ChannelizedPriorityQueue as a middleman between two channels here to illustrate
-	// how ChannelizedPriorityQueue will be sent items and be received items from
-
-	stringsFromProducer := make(chan string)
-	// Start StringProducer
-	go func() {
-		StringProducer(stringsFromProducer)
-		close(stringsFromProducer) // Close the channel after StringProducer is done
-		log.Debug().Msg("pathsFromProducer closed")
-	}()
-
-	// Create a ChannelizedPriorityQueue to act as a middleman
-	cpq := NewChannelizedPriorityQueue[string]()
-
-	// Goroutine to transfer strings from the StringProducer to the ChannelizedPriorityQueue
-	go func() {
-		for path := range stringsFromProducer {
-			item := &Item[string]{Value: path, Priority: len(path)} // Demo priority
-			cpq.In() <- item
-		}
-		cpq.Close() // when stringsFromProducer is closed, close ChannelizedPriorityQueue also
-		log.Debug().Msg("ChannelizedPriorityQueue closed")
-	}()
-
-	stringsToWorker := make(chan string)
-	// Goroutine to transfer strings from the ChannelizedPriorityQueue to the workers
-	go func() {
-		for item := range cpq.Out() {
-			stringsToWorker <- item.Value // Send the path to the workers
-		}
-		close(stringsToWorker) // Close it when ChannelizedPriorityQueue is closed
-		log.Debug().Msg("pathsToWorker closed")
-	}()
-
-	numWorkers := 4 // Number of workers
-	var wg sync.WaitGroup
-	// Launch worker goroutines
-	for range numWorkers {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			StringConsumer(stringsToWorker)
-		}()
-	}
-	wg.Wait() // Wait for all workers to finish
-}
-```
-
-For completeness, here are my simplified `StringConsumer` and `StringProducer` functions:
-
-```go
-func StringProducer(strings <-chan string) {
-    for range 5 {
-		str := rand.Text()
-		log.Info().Str("str", str).Msg("Sending string")
-		strings <- str
-	}
-}
-
-func StringConsumer() {
-    log.Info().Str("str", path).Msg("Consuming string")
-}
-```
-
-### Problem:
-
-`StringProducer` sends all strings, but `StringConsumer`s do not consume all strings some times.
-
-Example output:
-```
-12:13AM INF Sending string str=UFG3FBPBKFZKAY3IGVSLJCTU73
-12:13AM INF Sending string str=CQXTC4YTFUEXQIQCHVIWEXSN4Q
-12:13AM INF Consuming string str=UFG3FBPBKFZKAY3IGVSLJCTU73
-12:13AM INF Sending string str=ABFG6ZXKDU53DPGXK3MRA6VUTX
-12:13AM INF Sending string str=L54QCVHLFBEMD6UQ2QXPMN6NST
-12:13AM INF Consuming string str=CQXTC4YTFUEXQIQCHVIWEXSN4Q
-12:13AM INF Sending string str=MWXBDAOQSWH4AFOPZ7QKQQSC4K
-12:13AM DBG pathsFromProducer closed
-12:13AM INF Consuming string str=ABFG6ZXKDU53DPGXK3MRA6VUTX
-12:13AM DBG ChannelizedPriorityQueue transferToQueue exited
-12:13AM DBG ChannelizedPriorityQueue in channel closed
-12:13AM DBG BlockingPriorityQueue closed
-12:13AM DBG ChannelizedPriorityQueue closed
-12:13AM DBG BlockingPriorityQueue Pop() closed
-12:13AM DBG ChannelizedPriorityQueue out channel closed
-12:13AM DBG pathsToWorker closed
-```
-
-Where did I go wrong?
