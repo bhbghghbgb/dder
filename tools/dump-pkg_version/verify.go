@@ -82,12 +82,12 @@ func subcommandVerify(args *Args, verifyCmd *VerifyCmd) {
 	for _, file := range pkgMap {
 		workQueue <- file
 	}
+	pkgMap = nil // don't need the map anymore
 	close(workQueue)
 	workWg.Wait() // Wait for the comparator goroutines to finish writing all the results.
 
-	for index, res := range results {
+	for _, res := range results {
 		baseLog := log.With().
-			Int("index", index).
 			Str("file", res.FilePath).
 			Logger()
 
@@ -95,13 +95,13 @@ func subcommandVerify(args *Args, verifyCmd *VerifyCmd) {
 		case CR_Same:
 			baseLog.Info().Msg("File is unchanged")
 		case CR_SizeDif:
-			baseLog.Warn().Msg("File size differs")
+			baseLog.Info().Msg("File size differs")
 		case CR_Md5Dif:
-			baseLog.Warn().Msg("MD5 hash differs")
+			baseLog.Info().Msg("MD5 hash differs")
 		case CR_Xxh64Dif:
-			baseLog.Warn().Msg("XXH64 hash differs")
+			baseLog.Info().Msg("XXH64 hash differs")
 		case CR_NotExist:
-			baseLog.Error().Msg("File does not exist")
+			baseLog.Info().Msg("File does not exist")
 		case CR_IsDir:
 			baseLog.Warn().Msg("Path is a directory")
 		case CR_Error:
@@ -228,6 +228,10 @@ func compareFile(file FileInfo) (CompareResult, error) {
 	if err != nil {
 		baseLog.Warn().Err(err).Msg("Failed to retrieve file metadata")
 		return CR_Error, err
+	}
+	if stat.IsDir() {
+		baseLog.Warn().Err(err).Msg("Path is a directory")
+		return CR_IsDir, err
 	}
 	actualSize := stat.Size()
 	if actualSize != file.Size {

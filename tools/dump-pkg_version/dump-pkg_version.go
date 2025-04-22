@@ -40,6 +40,7 @@ type Args struct {
 	Threads int        `arg:"-w,--workers" default:"2" help:"Number of worker goroutines for hashing"`
 	Dump    *DumpCmd   `arg:"subcommand:dump"`
 	Verify  *VerifyCmd `arg:"subcommand:verify"`
+	Mirror  *MirrorCmd `arg:"subcommand:mirror"`
 }
 
 // DumpCmd defines the arguments for the "dump" subcommand.
@@ -53,6 +54,12 @@ type VerifyCmd struct {
 	InputDir            string   `arg:"positional,required" help:"Input directory to scan"`
 	PkgFiles            []string `arg:"-f,--pkg-file" help:"List of additional package files to use"`
 	CheckInputDirForPkg bool     `arg:"-c,--check-input" help:"Look for pkg files in input directory"`
+}
+
+// MirrorCmd defines the arguments for the "mirror" subcommand.
+type MirrorCmd struct {
+	OutputDir string   `arg:"positional,required" help:"Output directory to create files to"`
+	PkgFiles  []string `arg:"-f,--pkg-file" help:"List of additional package files to use"`
 }
 
 func main() {
@@ -72,6 +79,8 @@ func main() {
 		subcommandDump(&args, args.Dump)
 	case args.Verify != nil:
 		subcommandVerify(&args, args.Verify)
+	case args.Mirror != nil:
+		subcommandMirror(&args, args.Mirror)
 	}
 }
 
