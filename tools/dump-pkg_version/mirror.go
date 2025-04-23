@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/hex"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -29,18 +28,18 @@ func subcommandMirror(args *Args, mirrorCmd *MirrorCmd) {
 		log.Panic().Msg("Output directory is required") // If no output directory is given, log a fatal error and exit.
 	}
 
-	// Initialize the map for storing FileInfo objects
-	pkgMap := make(map[string]FileInfo)
+	// Initialize the map for storing FileInfoOutput objects
+	pkgMap := make(map[string]FileInfoOutput)
 	// it is pretty fast to read already, doesn't need multi thread as map will require locking anyway.
 	// Process additional package files provided as flags
 	for _, pkgFile := range _mirrorCmd.PkgFiles {
-		err := readPkgFile("", pkgFile, pkgMap)
+		err := readPkgFile(pkgFile, pkgMap)
 		if err != nil {
 			log.Panic().Err(err).Msg("Error reading some pkg files")
 		}
 	}
 
-	workQueue := make(chan FileInfo, len(pkgMap)) // Work queue
+	workQueue := make(chan FileInfoOutput, len(pkgMap)) // Work queue
 
 	var workWg sync.WaitGroup
 	// Start a fixed number of worker goroutines
@@ -63,13 +62,13 @@ func subcommandMirror(args *Args, mirrorCmd *MirrorCmd) {
 	workWg.Wait() // Wait for the comparator goroutines to finish writing all the results.
 }
 
-func mirrorFile(baseDir string, file FileInfo) error {
+func mirrorFile(baseDir string, file FileInfoOutput) error {
 	// Construct the output file path
 	outputPath := filepath.Join(baseDir, file.FilePath+".json")
 
 	// Create parent directories if they don't exist
 	parentDir := filepath.Dir(outputPath)
-	err := os.MkdirAll(parentDir, 0777)
+	err := os.MkdirAll(parentDir, 0666)
 	if err != nil {
 		log.Warn().
 			Err(err).
@@ -78,27 +77,19 @@ func mirrorFile(baseDir string, file FileInfo) error {
 		return err
 	}
 
-	// Convert hash bytes to hex strings for JSON output.
-	out := FileInfoOutput{
-		FilePath:  filepath.ToSlash(file.FilePath),    // Assign the file path. Convert to forward slashes for cross-platform consistency.
-		Md5Hash:   hex.EncodeToString(file.Md5Hash),   // Convert the MD5 hash (byte array) to a hexadecimal string.
-		Xxh64Hash: hex.EncodeToString(file.Xxh64Hash), // Convert the XXH64 hash (byte array) to a hexadecimal string.
-		Size:      file.Size,                          // Assign the file size.
-	}
-
 	// Marshal the FileInfo object to JSON
-	data, err := json.Marshal(out)
+	data, err := json.Marshal(file)
 	if err != nil {
 		log.Panic().
 			Err(err).
+			Str("outputPath", outputPath).
 			Str("filePath", file.FilePath).
-			Str("filePathRel", out.FilePath).
 			Msg("Failed to marshal FileInfo")
 		return err
 	}
 
 	// Write the JSON data to the output file
-	err = os.WriteFile(outputPath, data, 0777)
+	err = os.WriteFile(outputPath, data, 0666)
 	if err != nil {
 		log.Warn().
 			Err(err).

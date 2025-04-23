@@ -52,7 +52,18 @@ func subcommandVerify(args *Args, verifyCmd *VerifyCmd) {
 	}
 
 	// it is pretty fast to read already, doesn't need multi thread as map will require locking anyway.
-	pkgMap, err := readPkgFiles(_verifyCmd.InputDir, _verifyCmd.PkgFiles, _verifyCmd.CheckInputDirForPkg)
+	_pkgMap, err := readPkgFiles(_verifyCmd.InputDir, _verifyCmd.PkgFiles, _verifyCmd.CheckInputDirForPkg)
+	pkgMap := lo.MapEntries(_pkgMap, func(k string, v FileInfoOutput) (string, FileInfo) {
+		// Convert FileInfoOutput to FileInfo
+		fileInfo := FileInfo{
+			FilePath:  v.FilePath,
+			Md5Hash:   decodeHex(v.Md5Hash),
+			Xxh64Hash: decodeHex(v.Xxh64Hash),
+			Size:      v.Size,
+		}
+		return k, fileInfo
+	})
+	_pkgMap = nil
 	if err != nil {
 		log.Panic().Err(err).Msg("Error reading some pkg files")
 	}
@@ -68,7 +79,7 @@ func subcommandVerify(args *Args, verifyCmd *VerifyCmd) {
 		go func() {
 			defer workWg.Done()
 			for file := range workQueue { // Workers pick tasks from the queue
-				result, _ := compareFile(file)
+				result, _ := compareFile(_verifyCmd.InputDir, file)
 				if result != CR_Same {
 					resultsMutex.Lock()
 					results = append(results, FileCompareResult{FilePath: file.FilePath, Result: result})
@@ -112,7 +123,7 @@ func subcommandVerify(args *Args, verifyCmd *VerifyCmd) {
 	}
 }
 
-func readPkgFile(baseDir string, pkgFilePath string, outMap map[string]FileInfo) error {
+func readPkgFile(pkgFilePath string, outMap map[string]FileInfoOutput) error {
 	file, err := os.Open(pkgFilePath)
 	if err != nil {
 		return fmt.Errorf("failed to open pkg file %s: %w", pkgFilePath, err)
@@ -131,16 +142,8 @@ func readPkgFile(baseDir string, pkgFilePath string, outMap map[string]FileInfo)
 			return fmt.Errorf("failed to unmarshal line in pkg file %s: %w", pkgFilePath, err)
 		}
 
-		// Convert FileInfoOutput to FileInfo
-		fileInfo := FileInfo{
-			FilePath:  filepath.Join(baseDir, fileInfoOutput.FilePath),
-			Md5Hash:   decodeHex(fileInfoOutput.Md5Hash),
-			Xxh64Hash: decodeHex(fileInfoOutput.Xxh64Hash),
-			Size:      fileInfoOutput.Size,
-		}
-
 		// Store in map using remoteName as key
-		outMap[fileInfoOutput.FilePath] = fileInfo
+		outMap[fileInfoOutput.FilePath] = fileInfoOutput
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -159,7 +162,7 @@ func decodeHex(hexStr string) []byte {
 	return decoded
 }
 
-func scanInputDirForPkg(inputDir string, outMap map[string]FileInfo) error {
+func scanInputDirForPkg(inputDir string, outMap map[string]FileInfoOutput) error {
 	entries, err := os.ReadDir(inputDir)
 	if err != nil {
 		return fmt.Errorf("failed to read input directory %s: %w", inputDir, err)
@@ -171,7 +174,7 @@ func scanInputDirForPkg(inputDir string, outMap map[string]FileInfo) error {
 			fullPath := filepath.Join(inputDir, entry.Name())
 
 			// Read and process the pkg file
-			err := readPkgFile(inputDir, fullPath, outMap)
+			err := readPkgFile(fullPath, outMap)
 			if err != nil {
 				return fmt.Errorf("error processing pkg file %s: %w", fullPath, err)
 			}
@@ -181,9 +184,9 @@ func scanInputDirForPkg(inputDir string, outMap map[string]FileInfo) error {
 	return nil
 }
 
-func readPkgFiles(inputDir string, pkgFiles []string, checkInputDirForPkg bool) (map[string]FileInfo, error) {
+func readPkgFiles(inputDir string, pkgFiles []string, checkInputDirForPkg bool) (map[string]FileInfoOutput, error) {
 	// Initialize the map for storing FileInfo objects
-	pkgMap := make(map[string]FileInfo)
+	pkgMap := make(map[string]FileInfoOutput)
 
 	if checkInputDirForPkg {
 		err := scanInputDirForPkg(inputDir, pkgMap)
@@ -194,7 +197,7 @@ func readPkgFiles(inputDir string, pkgFiles []string, checkInputDirForPkg bool) 
 
 	// Process additional package files provided as flags
 	for _, pkgFile := range pkgFiles {
-		err := readPkgFile(inputDir, pkgFile, pkgMap)
+		err := readPkgFile(pkgFile, pkgMap)
 		if err != nil {
 			return nil, fmt.Errorf("error processing pkg file %s: %w", pkgFile, err)
 		}
@@ -204,11 +207,12 @@ func readPkgFiles(inputDir string, pkgFiles []string, checkInputDirForPkg bool) 
 }
 
 // compareFile reads the file and computes the MD5 and XXH64 hashes and file size.
-func compareFile(file FileInfo) (CompareResult, error) {
-	baseLog := log.With().Str("file", file.FilePath).Logger()
+func compareFile(basedir string, file FileInfo) (CompareResult, error) {
+	filePathAbs := filepath.Join(basedir, file.FilePath)
+	baseLog := log.With().Str("file", filePathAbs).Logger()
 	baseLog.Trace().Msg("Start compare")
-	f, err := os.Open(file.FilePath) // Open the file for reading.
-	if err != nil {                  // If there's an error opening the file
+	f, err := os.Open(filePathAbs) // Open the file for reading.
+	if err != nil {                // If there's an error opening the file
 		errno := err.(*os.PathError).Err.(syscall.Errno)
 		switch errno {
 		case syscall.ERROR_FILE_NOT_FOUND:
