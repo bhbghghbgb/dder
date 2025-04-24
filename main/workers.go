@@ -96,7 +96,7 @@ func FileWorker(paths <-chan string, updateSize func(string, int64), updateMD5 f
 func FileWalker(root string, paths chan<- string, addFile func(string)) {
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			log.Warn().Str("path", path).Err(err).Msg("Error accessing path")
+			log.Panic().Str("path", path).Err(err).Msg("Error accessing path")
 			return nil // Continue walking despite the error
 		}
 		if !info.IsDir() {
@@ -106,13 +106,8 @@ func FileWalker(root string, paths chan<- string, addFile func(string)) {
 		return nil
 	})
 	if err != nil {
-		log.Error().Err(err).Msg("Error walking the directory")
+		log.Panic().Err(err).Msg("Error walking the directory")
 	}
-	// for range 5 {
-	// 	str := rand.Text()
-	// 	log.Info().Str("str", str).Msg("Sending string")
-	// 	paths <- str
-	// }
 }
 
 func FileTest() {

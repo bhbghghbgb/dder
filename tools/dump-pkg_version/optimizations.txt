@@ -1,0 +1,971 @@
+# example/tools/dump-pkg_version
+./dump-pkg_version.go:68:10: can inline main.func1 with cost 79 as: func() Args { args = <nil>; arg.MustParse(... argument...); return args }
+./dump-pkg_version.go:100:6: cannot inline fileWalker: function too complex: cost 269 exceeds budget 80
+./dump-pkg_version.go:101:36: can inline fileWalker.func1 with cost 513 as: func(string, fs.DirEntry, error) error { if err != nil { (*zerolog.Event).Msg((*zerolog.Event).Str((*zerolog.Event).Err(log.Panic(), err), "path", path), "Error walking file"); return nil }; if !d.IsDir() { paths <- path; (*zerolog.Event).Msg((*zerolog.Event).Str(log.Debug(), "file", path), "Discovered") }; return nil }
+./dump-pkg_version.go:118:6: cannot inline processFileReader: function too complex: cost 334 exceeds budget 80
+./dump-pkg_version.go:132:6: cannot inline processFile: unhandled op DEFER
+./dump-pkg_version.go:144:2: can inline processFile.deferwrap1 with cost 69 as: func() { (*os.File).Close(.autotmp_11) }
+./dump-pkg_version.go:88:6: cannot inline fileWorker: function too complex: cost 326 exceeds budget 80
+./dump.go:77:6: cannot inline pkgOutWorker: function too complex: cost 977 exceeds budget 80
+./dump.go:66:6: cannot inline pkgOutWriter: unhandled op DEFER
+./dump.go:71:2: can inline pkgOutWriter.deferwrap1 with cost 69 as: func() { (*os.File).Close(.autotmp_6) }
+./dump.go:14:6: cannot inline subcommandDump: unhandled op GO
+./dump.go:35:5: cannot inline subcommandDump.func1: unhandled op DEFER
+./dump.go:36:3: can inline subcommandDump.func1.deferwrap1 with cost 2 as: func() { close(.autotmp_0) }
+./dump.go:44:6: cannot inline subcommandDump.func2: unhandled op DEFER
+./dump.go:45:4: can inline subcommandDump.func2.deferwrap1 with cost 62 as: func() { (*sync.WaitGroup).Done(.autotmp_0) }
+./dump.go:50:5: can inline subcommandDump.func3 with cost 62 as: func() { (*sync.WaitGroup).Wait(workWg); close(results) }
+./dump.go:58:5: cannot inline subcommandDump.func4: unhandled op DEFER
+./dump.go:59:3: can inline subcommandDump.func4.deferwrap1 with cost 62 as: func() { (*sync.WaitGroup).Done(.autotmp_0) }
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6: can inline lo.Map[go.shape.string,go.shape.string] with cost 41 as: func(*[5]uintptr, []go.shape.string, func(go.shape.string, int) go.shape.string) []go.shape.string { lo.result := make([]go.shape.string, len(lo.collection)); for loop; return lo.result }
+./verify.go:45:52: can inline subcommandVerify.func1 with cost 71 as: func(string, int) string { return filepath.ToSlash(path) }
+./verify.go:126:6: cannot inline readPkgFile: unhandled op DEFER
+./verify.go:131:2: can inline readPkgFile.deferwrap1 with cost 69 as: func() { (*os.File).Close(.autotmp_7) }
+./verify.go:165:6: cannot inline scanInputDirForPkg: function too complex: cost 607 exceeds budget 80
+./verify.go:187:6: cannot inline readPkgFiles: function too complex: cost 289 exceeds budget 80
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6: can inline lo.MapEntries[go.shape.string,go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" },go.shape.string,go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }] with cost 49 as: func(*[8]uintptr, map[go.shape.string]go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" }, func(go.shape.string, go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" }) (go.shape.string, go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 })) map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 } { lo.result := make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)); for loop; return lo.result }
+./verify.go:157:6: cannot inline decodeHex: function too complex: cost 259 exceeds budget 80
+./verify.go:56:35: can inline subcommandVerify.func2 with cost 138 as: func(string, FileInfoOutput) (string, FileInfo) { fileInfo := FileInfo{...}; return k, fileInfo }
+./verify.go:210:6: cannot inline compareFile: unhandled op DEFER
+./verify.go:229:2: can inline compareFile.deferwrap1 with cost 69 as: func() { (*os.File).Close(.autotmp_11) }
+./verify.go:36:6: cannot inline subcommandVerify: unhandled op GO
+./verify.go:79:6: cannot inline subcommandVerify.func3: unhandled op DEFER
+./verify.go:80:4: can inline subcommandVerify.func3.deferwrap1 with cost 62 as: func() { (*sync.WaitGroup).Done(.autotmp_0) }
+./mirror.go:22:52: can inline subcommandMirror.func1 with cost 71 as: func(string, int) string { return filepath.ToSlash(path) }
+./mirror.go:65:6: cannot inline mirrorFile: function too complex: cost 1366 exceeds budget 80
+./mirror.go:13:6: cannot inline subcommandMirror: unhandled op GO
+./mirror.go:48:6: cannot inline subcommandMirror.func2: unhandled op DEFER
+./mirror.go:49:4: can inline subcommandMirror.func2.deferwrap1 with cost 62 as: func() { (*sync.WaitGroup).Done(.autotmp_0) }
+./dump-pkg_version.go:65:6: cannot inline main: function too complex: cost 375 exceeds budget 80
+C:\Program Files\Go\src\sync\atomic\type.go:63:6: can inline atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).CompareAndSwap with cost 63 as: method(*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]) func(*[16]uintptr, *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }, *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }) bool { return atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) }
+C:\Program Files\Go\src\sync\atomic\type.go:60:6: can inline atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Swap with cost 62 as: method(*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]) func(*[16]uintptr, *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }) *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string } { return (*go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string })(atomic.SwapPointer(&atomic.x.v, unsafe.Pointer(atomic.new))) }
+C:\Program Files\Go\src\sync\atomic\type.go:57:6: can inline atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Store with cost 61 as: method(*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]) func(*[16]uintptr, *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }) { atomic.StorePointer(&atomic.x.v, unsafe.Pointer(atomic.val)) }
+C:\Program Files\Go\src\sync\atomic\type.go:54:6: can inline atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Load with cost 4 as: method(*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]) func(*[16]uintptr) *go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string } { return (*go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string })(atomic.LoadPointer(&atomic.x.v)) }
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6: can inline lo.MapEntries[string,main.FileInfoOutput,string,main.FileInfo] with cost 56 as: func(map[string]FileInfoOutput, func(string, FileInfoOutput) (string, FileInfo)) map[string]FileInfo { return lo.MapEntries[go.shape.string,go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" },go.shape.string,go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }](&lo..dict.MapEntries[string,main.FileInfoOutput,string,main.FileInfo], lo.in, lo.iteratee) }
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6: can inline lo.Map[string,string] with cost 48 as: func([]string, func(string, int) string) []string { return lo.Map[go.shape.string,go.shape.string](&lo..dict.Map[string,string], lo.collection, lo.iteratee) }
+C:\Program Files\Go\src\sync\atomic\type.go:63:6: can inline atomic.(*Pointer[os.dirInfo]).CompareAndSwap with cost 70 as: method(*atomic.Pointer[os.dirInfo]) func(*os.dirInfo, *os.dirInfo) bool { return (*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).CompareAndSwap(atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.old, atomic.new) }
+C:\Program Files\Go\src\sync\atomic\type.go:60:6: can inline atomic.(*Pointer[os.dirInfo]).Swap with cost 68 as: method(*atomic.Pointer[os.dirInfo]) func(*os.dirInfo) *os.dirInfo { return (*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Swap(atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.new) }
+C:\Program Files\Go\src\sync\atomic\type.go:57:6: can inline atomic.(*Pointer[os.dirInfo]).Store with cost 66 as: method(*atomic.Pointer[os.dirInfo]) func(*os.dirInfo) { (*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Store(atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.val) }
+C:\Program Files\Go\src\sync\atomic\type.go:54:6: can inline atomic.(*Pointer[os.dirInfo]).Load with cost 9 as: method(*atomic.Pointer[os.dirInfo]) func() *os.dirInfo { return (*atomic.Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Load(atomic.x, &atomic..dict.Pointer[os.dirInfo]) }
+./dump-pkg_version.go:70:16: inlining call to arg.MustParse
+./dump-pkg_version.go:113:27: inlining call to zerolog.(*Event).Msg
+./dump-pkg_version.go:103:46: inlining call to zerolog.(*Event).Msg
+./dump-pkg_version.go:108:13: inlining call to log.Debug
+./dump-pkg_version.go:108:37: inlining call to zerolog.(*Event).Msg
+./dump-pkg_version.go:108:13: inlining call to zerolog.(*Logger).Debug
+./dump-pkg_version.go:119:17: inlining call to md5.New
+./dump-pkg_version.go:120:20: inlining call to xxh3.New
+./dump-pkg_version.go:123:36: inlining call to io.MultiWriter
+./dump-pkg_version.go:123:21: inlining call to io.Copy
+./dump-pkg_version.go:128:17: devirtualizing hMD5.Sum to *md5.digest
+./dump-pkg_version.go:128:17: inlining call to md5.(*digest).Sum
+./dump-pkg_version.go:128:34: inlining call to xxh3.(*Hasher).Sum
+./dump-pkg_version.go:119:17: inlining call to md5.(*digest).Reset
+./dump-pkg_version.go:128:34: inlining call to binary.bigEndian.PutUint64
+./dump-pkg_version.go:138:28: inlining call to filepath.ToSlash
+./dump-pkg_version.go:140:19: inlining call to os.Open
+./dump-pkg_version.go:153:11: inlining call to log.Trace
+./dump-pkg_version.go:153:38: inlining call to zerolog.(*Event).Msg
+./dump-pkg_version.go:138:28: inlining call to filepathlite.ToSlash
+./dump-pkg_version.go:153:11: inlining call to zerolog.(*Logger).Trace
+./dump-pkg_version.go:144:15: inlining call to os.(*File).Close
+./dump-pkg_version.go:92:46: inlining call to zerolog.(*Event).Msg
+./dump.go:81:31: inlining call to filepath.ToSlash
+./dump.go:82:33: inlining call to hex.EncodeToString
+./dump.go:83:33: inlining call to hex.EncodeToString
+./dump.go:88:54: inlining call to zerolog.(*Event).Msg
+./dump.go:92:11: inlining call to log.Info
+./dump.go:97:7: inlining call to zerolog.(*Event).Msg
+./dump.go:81:31: inlining call to filepathlite.ToSlash
+./dump.go:82:33: inlining call to hex.EncodedLen
+./dump.go:82:33: inlining call to hex.Encode
+./dump.go:83:33: inlining call to hex.EncodedLen
+./dump.go:83:33: inlining call to hex.Encode
+./dump.go:92:11: inlining call to zerolog.(*Logger).Info
+./dump.go:67:27: inlining call to os.Create
+./dump.go:69:27: inlining call to zerolog.(*Event).Msg
+./dump.go:71:21: inlining call to os.(*File).Close
+./dump.go:21:38: inlining call to filepath.ToSlash
+./dump.go:23:40: inlining call to filepath.ToSlash
+./dump.go:27:18: inlining call to zerolog.(*Event).Msg
+./dump.go:21:38: inlining call to filepathlite.ToSlash
+./dump.go:23:40: inlining call to filepathlite.ToSlash
+./dump.go:45:21: inlining call to sync.(*WaitGroup).Done
+./dump.go:59:21: inlining call to sync.(*WaitGroup).Done
+./verify.go:46:26: inlining call to filepath.ToSlash
+./verify.go:46:26: inlining call to filepathlite.ToSlash
+./verify.go:127:22: inlining call to os.Open
+./verify.go:134:29: inlining call to bufio.NewScanner
+./verify.go:136:23: inlining call to bufio.(*Scanner).Text
+./verify.go:149:23: inlining call to bufio.(*Scanner).Err
+./verify.go:131:18: inlining call to os.(*File).Close
+./verify.go:173:40: inlining call to strings.Contains
+./verify.go:174:29: inlining call to filepath.Join
+./verify.go:173:40: inlining call to strings.Index
+./verify.go:160:37: inlining call to zerolog.(*Event).Msg
+./verify.go:211:30: inlining call to filepath.Join
+./verify.go:212:21: inlining call to log.With
+./verify.go:212:55: inlining call to zerolog.Context.Logger
+./verify.go:213:15: inlining call to zerolog.(*Logger).Trace
+./verify.go:213:21: inlining call to zerolog.(*Event).Msg
+./verify.go:214:19: inlining call to os.Open
+./verify.go:219:16: inlining call to zerolog.(*Logger).Info
+./verify.go:219:22: inlining call to zerolog.(*Event).Msg
+./verify.go:222:16: inlining call to zerolog.(*Logger).Warn
+./verify.go:222:22: inlining call to zerolog.(*Event).Msg
+./verify.go:225:16: inlining call to zerolog.(*Logger).Warn
+./verify.go:225:31: inlining call to zerolog.(*Event).Msg
+./verify.go:233:15: inlining call to zerolog.(*Logger).Warn
+./verify.go:233:30: inlining call to zerolog.(*Event).Msg
+./verify.go:237:15: inlining call to zerolog.(*Logger).Warn
+./verify.go:237:30: inlining call to zerolog.(*Event).Msg
+./verify.go:242:15: inlining call to zerolog.(*Logger).Info
+./verify.go:245:7: inlining call to zerolog.(*Event).Msg
+./verify.go:252:15: inlining call to zerolog.(*Logger).Warn
+./verify.go:252:30: inlining call to zerolog.(*Event).Msg
+./verify.go:255:17: inlining call to bytes.Equal
+./verify.go:256:15: inlining call to zerolog.(*Logger).Info
+./verify.go:257:42: inlining call to hex.EncodeToString
+./verify.go:258:40: inlining call to hex.EncodeToString
+./verify.go:259:7: inlining call to zerolog.(*Event).Msg
+./verify.go:262:17: inlining call to bytes.Equal
+./verify.go:263:15: inlining call to zerolog.(*Logger).Info
+./verify.go:264:44: inlining call to hex.EncodeToString
+./verify.go:265:42: inlining call to hex.EncodeToString
+./verify.go:266:7: inlining call to zerolog.(*Event).Msg
+./verify.go:270:15: inlining call to zerolog.(*Logger).Trace
+./verify.go:270:21: inlining call to zerolog.(*Event).Msg
+./verify.go:212:21: inlining call to zerolog.Logger.With
+./verify.go:257:42: inlining call to hex.EncodedLen
+./verify.go:257:42: inlining call to hex.Encode
+./verify.go:258:40: inlining call to hex.EncodedLen
+./verify.go:258:40: inlining call to hex.Encode
+./verify.go:264:44: inlining call to hex.EncodedLen
+./verify.go:264:44: inlining call to hex.Encode
+./verify.go:265:42: inlining call to hex.EncodedLen
+./verify.go:265:42: inlining call to hex.Encode
+./verify.go:212:21: inlining call to json.Encoder.AppendBeginMarker
+./verify.go:229:15: inlining call to os.(*File).Close
+./verify.go:43:40: inlining call to filepath.ToSlash
+./verify.go:45:30: inlining call to lo.Map[go.shape.string,go.shape.string]
+./verify.go:51:18: inlining call to zerolog.(*Event).Msg
+./verify.go:56:25: inlining call to lo.MapEntries[go.shape.string,go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" },go.shape.string,go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }]
+./verify.go:68:27: inlining call to zerolog.(*Event).Msg
+./verify.go:101:22: inlining call to log.With
+./verify.go:103:10: inlining call to zerolog.Context.Logger
+./verify.go:107:16: inlining call to zerolog.(*Logger).Info
+./verify.go:107:22: inlining call to zerolog.(*Event).Msg
+./verify.go:109:16: inlining call to zerolog.(*Logger).Info
+./verify.go:109:22: inlining call to zerolog.(*Event).Msg
+./verify.go:111:16: inlining call to zerolog.(*Logger).Info
+./verify.go:111:22: inlining call to zerolog.(*Event).Msg
+./verify.go:113:16: inlining call to zerolog.(*Logger).Info
+./verify.go:113:22: inlining call to zerolog.(*Event).Msg
+./verify.go:115:16: inlining call to zerolog.(*Logger).Info
+./verify.go:115:22: inlining call to zerolog.(*Event).Msg
+./verify.go:117:16: inlining call to zerolog.(*Logger).Warn
+./verify.go:117:22: inlining call to zerolog.(*Event).Msg
+./verify.go:119:17: inlining call to zerolog.(*Logger).Error
+./verify.go:119:23: inlining call to zerolog.(*Event).Msg
+./verify.go:121:17: inlining call to zerolog.(*Logger).Error
+./verify.go:121:23: inlining call to zerolog.(*Event).Msg
+./verify.go:43:40: inlining call to filepathlite.ToSlash
+./verify.go:45:30: inlining call to subcommandVerify.func1
+./verify.go:56:25: inlining call to subcommandVerify.func2
+./verify.go:101:22: inlining call to zerolog.Logger.With
+./verify.go:45:30: inlining call to filepath.ToSlash
+./verify.go:101:22: inlining call to json.Encoder.AppendBeginMarker
+./verify.go:45:30: inlining call to filepathlite.ToSlash
+./verify.go:84:23: inlining call to sync.(*Mutex).Lock
+./verify.go:86:25: inlining call to sync.(*Mutex).Unlock
+./verify.go:84:23: inlining call to sync.(*Mutex).Lock
+./verify.go:86:25: inlining call to sync.(*Mutex).Unlock
+./verify.go:80:21: inlining call to sync.(*WaitGroup).Done
+./mirror.go:23:26: inlining call to filepath.ToSlash
+./mirror.go:23:26: inlining call to filepathlite.ToSlash
+./mirror.go:67:29: inlining call to filepath.Join
+./mirror.go:70:27: inlining call to filepath.Dir
+./mirror.go:73:11: inlining call to log.Warn
+./mirror.go:76:7: inlining call to zerolog.(*Event).Msg
+./mirror.go:87:7: inlining call to zerolog.(*Event).Msg
+./mirror.go:94:11: inlining call to log.Warn
+./mirror.go:97:7: inlining call to zerolog.(*Event).Msg
+./mirror.go:101:11: inlining call to log.Debug
+./mirror.go:103:6: inlining call to zerolog.(*Event).Msg
+./mirror.go:73:11: inlining call to zerolog.(*Logger).Warn
+./mirror.go:94:11: inlining call to zerolog.(*Logger).Warn
+./mirror.go:101:11: inlining call to zerolog.(*Logger).Debug
+./mirror.go:20:41: inlining call to filepath.ToSlash
+./mirror.go:22:30: inlining call to lo.Map[go.shape.string,go.shape.string]
+./mirror.go:28:18: inlining call to zerolog.(*Event).Msg
+./mirror.go:38:28: inlining call to zerolog.(*Event).Msg
+./mirror.go:20:41: inlining call to filepathlite.ToSlash
+./mirror.go:22:30: inlining call to subcommandMirror.func1
+./mirror.go:22:30: inlining call to filepath.ToSlash
+./mirror.go:22:30: inlining call to filepathlite.ToSlash
+./mirror.go:49:21: inlining call to sync.(*WaitGroup).Done
+./dump-pkg_version.go:72:3: inlining call to main.func1
+./dump-pkg_version.go:75:25: inlining call to log.Output
+./dump-pkg_version.go:72:3: inlining call to arg.MustParse
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6: inlining call to lo.MapEntries[go.shape.string,go.shape.struct { FilePath string "json:\"remoteName\""; Md5Hash string "json:\"md5\""; Xxh64Hash string "json:\"hash\""; Size int64 "json:\"fileSize\"" },go.shape.string,go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }]
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6: inlining call to lo.Map[go.shape.string,go.shape.string]
+C:\Program Files\Go\src\sync\atomic\type.go:63:6: inlining call to atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).CompareAndSwap
+C:\Program Files\Go\src\sync\atomic\type.go:60:6: inlining call to atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Swap
+C:\Program Files\Go\src\sync\atomic\type.go:57:6: inlining call to atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Store
+C:\Program Files\Go\src\sync\atomic\type.go:54:6: inlining call to atomic.(*Pointer[go.shape.struct { os.mu sync.Mutex; os.buf *[]uint8; os.bufp int; os.h syscall.Handle; os.vol uint32; os.class uint32; os.path string }]).Load
+<autogenerated>:1: inlining call to reflect.flag.kind
+<autogenerated>:1: inlining call to reflect.flag.kind
+<autogenerated>:1: inlining call to reflect.flag.mustBe
+<autogenerated>:1: inlining call to reflect.flag.kind
+<autogenerated>:1: inlining call to reflect.flag.mustBe
+<autogenerated>:1: inlining call to reflect.flag.kind
+<autogenerated>:1: inlining call to reflect.flag.mustBeAssignable
+<autogenerated>:1: inlining call to reflect.flag.mustBeAssignable
+<autogenerated>:1: inlining call to reflect.flag.mustBeExported
+<autogenerated>:1: inlining call to reflect.flag.mustBeExported
+<autogenerated>:1: inlining call to reflect.flag.ro
+<autogenerated>:1: inlining call to reflect.flag.ro
+./dump-pkg_version.go:100:34: fileWalker capturing by value: paths (addr=false assign=false width=8)
+./dump-pkg_version.go:101:41: parameter path leaks to {heap} with derefs=0:
+./dump-pkg_version.go:101:41:   flow: {heap} = path:
+./dump-pkg_version.go:101:41:     from paths <- path (send) at ./dump-pkg_version.go:107:10
+./dump-pkg_version.go:101:54: parameter d leaks to {heap} with derefs=0:
+./dump-pkg_version.go:101:54:   flow: {heap} = d:
+./dump-pkg_version.go:101:54:     from d.IsDir() (call parameter) at ./dump-pkg_version.go:106:14
+./dump-pkg_version.go:101:69: parameter err leaks to {heap} with derefs=0:
+./dump-pkg_version.go:101:69:   flow: {heap} = err:
+./dump-pkg_version.go:101:69:     from (*zerolog.Event).Err(log.Panic(), err) (call parameter) at ./dump-pkg_version.go:103:19
+./dump-pkg_version.go:100:17: parameter inputDir leaks to {heap} with derefs=0:
+./dump-pkg_version.go:100:17:   flow: {heap} = inputDir:
+./dump-pkg_version.go:100:17:     from filepath.WalkDir(inputDir, func literal) (call parameter) at ./dump-pkg_version.go:101:25
+./dump-pkg_version.go:100:17: leaking param: inputDir
+./dump-pkg_version.go:100:34: paths does not escape
+./dump-pkg_version.go:101:41: leaking param: path
+./dump-pkg_version.go:101:54: leaking param: d
+./dump-pkg_version.go:101:69: leaking param: err
+./dump-pkg_version.go:101:36: func literal does not escape
+./dump-pkg_version.go:123:36: make([]io.Writer, 0, len(io.writers)) escapes to heap:
+./dump-pkg_version.go:123:36:   flow: {heap} = &{storage for make([]io.Writer, 0, len(io.writers))}:
+./dump-pkg_version.go:123:36:     from make([]io.Writer, 0, len(io.writers)) (non-constant size) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:118:24: parameter reader leaks to {heap} with derefs=0:
+./dump-pkg_version.go:118:24:   flow: io.src = reader:
+./dump-pkg_version.go:118:24:     from io.dst, io.src := ~r0, reader (assign-pair) at ./dump-pkg_version.go:123:21
+./dump-pkg_version.go:118:24:   flow: {heap} = io.src:
+./dump-pkg_version.go:118:24:     from io.copyBuffer(io.dst, io.src, nil) (call parameter) at ./dump-pkg_version.go:123:21
+./dump-pkg_version.go:123:36: &io.multiWriter{...} escapes to heap:
+./dump-pkg_version.go:123:36:   flow: ~r0 = &{storage for &io.multiWriter{...}}:
+./dump-pkg_version.go:123:36:     from &io.multiWriter{...} (spill) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:123:36:     from &io.multiWriter{...} (interface-converted) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:123:36:     from ~r0 = &io.multiWriter{...} (assign-pair) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:123:36:   flow: io.dst = ~r0:
+./dump-pkg_version.go:123:36:     from io.dst, io.src := ~r0, reader (assign-pair) at ./dump-pkg_version.go:123:21
+./dump-pkg_version.go:123:36:   flow: {heap} = io.dst:
+./dump-pkg_version.go:123:36:     from io.copyBuffer(io.dst, io.src, nil) (call parameter) at ./dump-pkg_version.go:123:21
+./dump-pkg_version.go:120:20: new(xxh3.Hasher) escapes to heap:
+./dump-pkg_version.go:120:20:   flow: ~r0 = &{storage for new(xxh3.Hasher)}:
+./dump-pkg_version.go:120:20:     from new(xxh3.Hasher) (spill) at ./dump-pkg_version.go:120:20
+./dump-pkg_version.go:120:20:     from ~r0 = new(xxh3.Hasher) (assign-pair) at ./dump-pkg_version.go:120:20
+./dump-pkg_version.go:120:20:   flow: hXXH64 = ~r0:
+./dump-pkg_version.go:120:20:     from hXXH64 := ~r0 (assign) at ./dump-pkg_version.go:120:9
+./dump-pkg_version.go:120:20:   flow: {storage for ... argument} = hXXH64:
+./dump-pkg_version.go:120:20:     from hXXH64 (interface-converted) at ./dump-pkg_version.go:123:43
+./dump-pkg_version.go:120:20:     from ... argument (slice-literal-element) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:120:20:   flow: io.writers = &{storage for ... argument}:
+./dump-pkg_version.go:120:20:     from ... argument (spill) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:120:20:     from io.writers := ... argument (assign-pair) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:120:20:   flow: {temp} = io.writers:
+./dump-pkg_version.go:120:20:   flow: io.w = *{temp}:
+./dump-pkg_version.go:120:20:     from for loop (range-deref) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:120:20:   flow: {heap} = io.w:
+./dump-pkg_version.go:120:20:     from append(io.allWriters, io.w) (call parameter) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:119:17: new(md5.digest) escapes to heap:
+./dump-pkg_version.go:119:17:   flow: md5.d = &{storage for new(md5.digest)}:
+./dump-pkg_version.go:119:17:     from new(md5.digest) (spill) at ./dump-pkg_version.go:119:17
+./dump-pkg_version.go:119:17:     from md5.d := new(md5.digest) (assign) at ./dump-pkg_version.go:119:17
+./dump-pkg_version.go:119:17:   flow: ~r0 = md5.d:
+./dump-pkg_version.go:119:17:     from md5.d (interface-converted) at ./dump-pkg_version.go:119:17
+./dump-pkg_version.go:119:17:     from ~r0 = md5.d (assign-pair) at ./dump-pkg_version.go:119:17
+./dump-pkg_version.go:119:17:   flow: hMD5 = ~r0:
+./dump-pkg_version.go:119:17:     from hMD5 := ~r0 (assign) at ./dump-pkg_version.go:119:7
+./dump-pkg_version.go:119:17:   flow: {storage for ... argument} = hMD5:
+./dump-pkg_version.go:119:17:     from hMD5 (interface-converted) at ./dump-pkg_version.go:123:37
+./dump-pkg_version.go:119:17:     from ... argument (slice-literal-element) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:119:17:   flow: io.writers = &{storage for ... argument}:
+./dump-pkg_version.go:119:17:     from ... argument (spill) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:119:17:     from io.writers := ... argument (assign-pair) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:119:17:   flow: {temp} = io.writers:
+./dump-pkg_version.go:119:17:   flow: io.w = *{temp}:
+./dump-pkg_version.go:119:17:     from for loop (range-deref) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:119:17:   flow: {heap} = io.w:
+./dump-pkg_version.go:119:17:     from append(io.allWriters, io.w) (call parameter) at ./dump-pkg_version.go:123:36
+./dump-pkg_version.go:118:24: leaking param: reader
+./dump-pkg_version.go:119:17: new(md5.digest) escapes to heap
+./dump-pkg_version.go:120:20: new(xxh3.Hasher) escapes to heap
+./dump-pkg_version.go:123:36: ... argument does not escape
+./dump-pkg_version.go:123:36: make([]io.Writer, 0, len(io.writers)) escapes to heap
+./dump-pkg_version.go:123:36: &io.multiWriter{...} escapes to heap
+./dump-pkg_version.go:144:2: processFile capturing by value: .autotmp_11 (addr=false assign=false width=8)
+./dump-pkg_version.go:132:34: parameter path leaks to {heap} with derefs=0:
+./dump-pkg_version.go:132:34:   flow: {heap} = path:
+./dump-pkg_version.go:132:34:     from filepath.Rel(baseDir, path) (call parameter) at ./dump-pkg_version.go:133:30
+./dump-pkg_version.go:132:18: parameter baseDir leaks to {heap} with derefs=0:
+./dump-pkg_version.go:132:18:   flow: {heap} = baseDir:
+./dump-pkg_version.go:132:18:     from filepath.Rel(baseDir, path) (call parameter) at ./dump-pkg_version.go:133:30
+./dump-pkg_version.go:132:18: leaking param: baseDir
+./dump-pkg_version.go:132:34: leaking param: path
+./dump-pkg_version.go:88:38: parameter inputDir leaks to {heap} with derefs=0:
+./dump-pkg_version.go:88:38:   flow: {heap} = inputDir:
+./dump-pkg_version.go:88:38:     from processFile(inputDir, path) (call parameter) at ./dump-pkg_version.go:90:27
+./dump-pkg_version.go:88:17: paths does not escape
+./dump-pkg_version.go:88:38: leaking param: inputDir
+./dump-pkg_version.go:88:55: results does not escape
+./dump.go:86:34: out escapes to heap:
+./dump.go:86:34:   flow: {heap} = &{storage for out}:
+./dump.go:86:34:     from out (spill) at ./dump.go:86:34
+./dump.go:86:34:     from json.Marshal(out) (call parameter) at ./dump.go:86:33
+./dump.go:82:33: make([]byte, ~r0) escapes to heap:
+./dump.go:82:33:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./dump.go:82:33:     from make([]byte, ~r0) (non-constant size) at ./dump.go:82:33
+./dump.go:83:33: make([]byte, ~r0) escapes to heap:
+./dump.go:83:33:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./dump.go:83:33:     from make([]byte, ~r0) (non-constant size) at ./dump.go:83:33
+./dump.go:91:31: string(jsonBytes) escapes to heap:
+./dump.go:91:31:   flow: {storage for ... argument} = &{storage for string(jsonBytes)}:
+./dump.go:91:31:     from string(jsonBytes) (spill) at ./dump.go:91:31
+./dump.go:91:31:     from ... argument (slice-literal-element) at ./dump.go:91:15
+./dump.go:91:31:   flow: {heap} = {storage for ... argument}:
+./dump.go:91:31:     from ... argument (spill) at ./dump.go:91:15
+./dump.go:91:31:     from fmt.Fprintln(outFile, ... argument...) (call parameter) at ./dump.go:91:15
+./dump.go:77:44: parameter outFile leaks to {heap} with derefs=0:
+./dump.go:77:44:   flow: {heap} = outFile:
+./dump.go:77:44:     from outFile (interface-converted) at ./dump.go:91:16
+./dump.go:77:44:     from fmt.Fprintln(outFile, ... argument...) (call parameter) at ./dump.go:91:15
+./dump.go:91:32: string(jsonBytes) escapes to heap:
+./dump.go:91:32:   flow: {storage for string(jsonBytes)} = &{storage for string(jsonBytes)}:
+./dump.go:91:32:     from string(jsonBytes) (spill) at ./dump.go:91:32
+./dump.go:91:32:     from string(jsonBytes) (interface-converted) at ./dump.go:91:31
+./dump.go:83:33: string(hex.dst) escapes to heap:
+./dump.go:83:33:   flow: ~r0 = &{storage for string(hex.dst)}:
+./dump.go:83:33:     from string(hex.dst) (spill) at ./dump.go:83:33
+./dump.go:83:33:     from ~r0 = string(hex.dst) (assign-pair) at ./dump.go:83:33
+./dump.go:83:33:   flow: out = ~r0:
+./dump.go:83:33:     from FileInfoOutput{...} (struct literal element) at ./dump.go:80:24
+./dump.go:83:33:     from out := FileInfoOutput{...} (assign) at ./dump.go:80:7
+./dump.go:83:33:   flow: {storage for out} = out:
+./dump.go:83:33:     from out (interface-converted) at ./dump.go:86:34
+./dump.go:82:33: string(hex.dst) escapes to heap:
+./dump.go:82:33:   flow: ~r0 = &{storage for string(hex.dst)}:
+./dump.go:82:33:     from string(hex.dst) (spill) at ./dump.go:82:33
+./dump.go:82:33:     from ~r0 = string(hex.dst) (assign-pair) at ./dump.go:82:33
+./dump.go:82:33:   flow: out = ~r0:
+./dump.go:82:33:     from FileInfoOutput{...} (struct literal element) at ./dump.go:80:24
+./dump.go:82:33:     from out := FileInfoOutput{...} (assign) at ./dump.go:80:7
+./dump.go:82:33:   flow: {storage for out} = out:
+./dump.go:82:33:     from out (interface-converted) at ./dump.go:86:34
+./dump.go:77:19: results does not escape
+./dump.go:77:44: leaking param: outFile
+./dump.go:82:33: make([]byte, ~r0) escapes to heap
+./dump.go:82:33: string(hex.dst) escapes to heap
+./dump.go:83:33: make([]byte, ~r0) escapes to heap
+./dump.go:83:33: string(hex.dst) escapes to heap
+./dump.go:86:34: out escapes to heap
+./dump.go:91:15: ... argument does not escape
+./dump.go:91:31: string(jsonBytes) escapes to heap
+./dump.go:91:32: string(jsonBytes) escapes to heap
+./dump.go:71:2: pkgOutWriter capturing by value: .autotmp_6 (addr=false assign=false width=8)
+./dump.go:66:19: parameter outputFile leaks to {heap} with derefs=0:
+./dump.go:66:19:   flow: os.name = outputFile:
+./dump.go:66:19:     from os.name := outputFile (assign-pair) at ./dump.go:67:27
+./dump.go:66:19:   flow: {heap} = os.name:
+./dump.go:66:19:     from os.OpenFile(os.name, 578, fs.FileMode(438)) (call parameter) at ./dump.go:67:27
+./dump.go:66:19: leaking param: outputFile
+./dump.go:66:38: results does not escape
+./dump.go:35:5: func literal escapes to heap:
+./dump.go:35:5:   flow: {heap} = &{storage for func literal}:
+./dump.go:35:5:     from func literal (spill) at ./dump.go:35:5
+./dump.go:41:6: workWg escapes to heap:
+./dump.go:41:6:   flow: {heap} = &workWg:
+./dump.go:41:6:     from workWg (address-of) at ./dump.go:42:8
+./dump.go:41:6:     from (*sync.WaitGroup).Add(workWg, _args.Threads) (call parameter) at ./dump.go:42:12
+./dump.go:44:6: func literal escapes to heap:
+./dump.go:44:6:   flow: {heap} = &{storage for func literal}:
+./dump.go:44:6:     from func literal (spill) at ./dump.go:44:6
+./dump.go:50:5: func literal escapes to heap:
+./dump.go:50:5:   flow: {heap} = &{storage for func literal}:
+./dump.go:50:5:     from func literal (spill) at ./dump.go:50:5
+./dump.go:41:6: workWg escapes to heap:
+./dump.go:41:6:   flow: {heap} = &workWg:
+./dump.go:41:6:     from workWg (address-of) at ./dump.go:51:9
+./dump.go:41:6:     from (*sync.WaitGroup).Wait(workWg) (call parameter) at ./dump.go:51:14
+./dump.go:56:6: writeWg escapes to heap:
+./dump.go:56:6:   flow: {heap} = &writeWg:
+./dump.go:56:6:     from writeWg (address-of) at ./dump.go:57:9
+./dump.go:56:6:     from (*sync.WaitGroup).Add(writeWg, 1) (call parameter) at ./dump.go:57:13
+./dump.go:58:5: func literal escapes to heap:
+./dump.go:58:5:   flow: {heap} = &{storage for func literal}:
+./dump.go:58:5:     from func literal (spill) at ./dump.go:58:5
+./dump.go:56:6: writeWg escapes to heap:
+./dump.go:56:6:   flow: {heap} = &writeWg:
+./dump.go:56:6:     from writeWg (address-of) at ./dump.go:62:9
+./dump.go:56:6:     from (*sync.WaitGroup).Wait(writeWg) (call parameter) at ./dump.go:62:14
+./dump.go:31:2: subcommandDump capturing by value: paths (addr=false assign=false width=8)
+./dump.go:17:2: subcommandDump capturing by value: _dumpCmd (addr=false assign=false width=32)
+./dump.go:36:3: subcommandDump.func1 capturing by value: .autotmp_0 (addr=false assign=false width=8)
+./dump.go:41:6: subcommandDump capturing by ref: workWg (addr=true assign=false width=16)
+./dump.go:41:6: workWg escapes to heap:
+./dump.go:41:6:   flow: {storage for func literal} = &workWg:
+./dump.go:41:6:     from workWg (captured by a closure) at ./dump.go:45:10
+./dump.go:41:6:     from workWg (reference) at ./dump.go:45:10
+./dump.go:31:2: subcommandDump capturing by value: paths (addr=false assign=false width=8)
+./dump.go:17:2: subcommandDump capturing by value: _dumpCmd (addr=false assign=false width=32)
+./dump.go:32:2: subcommandDump capturing by value: results (addr=false assign=false width=8)
+./dump.go:45:16: subcommandDump.func2 capturing by value: .autotmp_0 (addr=false assign=false width=8)
+./dump.go:41:6: subcommandDump capturing by ref: workWg (addr=true assign=false width=16)
+./dump.go:41:6: workWg escapes to heap:
+./dump.go:41:6:   flow: {storage for func literal} = &workWg:
+./dump.go:41:6:     from workWg (captured by a closure) at ./dump.go:51:3
+./dump.go:41:6:     from workWg (reference) at ./dump.go:51:3
+./dump.go:32:2: subcommandDump capturing by value: results (addr=false assign=false width=8)
+./dump.go:56:6: subcommandDump capturing by ref: writeWg (addr=true assign=false width=16)
+./dump.go:56:6: writeWg escapes to heap:
+./dump.go:56:6:   flow: {storage for func literal} = &writeWg:
+./dump.go:56:6:     from writeWg (captured by a closure) at ./dump.go:59:9
+./dump.go:56:6:     from writeWg (reference) at ./dump.go:59:9
+./dump.go:17:2: subcommandDump capturing by value: _dumpCmd (addr=false assign=false width=32)
+./dump.go:32:2: subcommandDump capturing by value: results (addr=false assign=false width=8)
+./dump.go:59:16: subcommandDump.func4 capturing by value: .autotmp_0 (addr=false assign=false width=8)
+./dump.go:14:33: parameter dumpCmd leaks to {heap} with derefs=1:
+./dump.go:14:33:   flow: _dumpCmd = *dumpCmd:
+./dump.go:14:33:     from *dumpCmd (indirection) at ./dump.go:17:14
+./dump.go:14:33:     from _dumpCmd := *dumpCmd (assign) at ./dump.go:17:11
+./dump.go:14:33:   flow: {heap} = _dumpCmd:
+./dump.go:14:33:     from _dumpCmd.InputDir (dot) at ./dump.go:37:22
+./dump.go:14:33:     from fileWalker(_dumpCmd.InputDir, paths) (call parameter) at ./dump.go:37:13
+./dump.go:14:33: parameter dumpCmd leaks to {storage for func literal} with derefs=1:
+./dump.go:14:33:   flow: _dumpCmd = *dumpCmd:
+./dump.go:14:33:     from *dumpCmd (indirection) at ./dump.go:17:14
+./dump.go:14:33:     from _dumpCmd := *dumpCmd (assign) at ./dump.go:17:11
+./dump.go:14:33:   flow: {storage for func literal} = _dumpCmd:
+./dump.go:14:33:     from _dumpCmd (captured by a closure) at ./dump.go:60:16
+./dump.go:14:33: parameter dumpCmd leaks to {storage for func literal} with derefs=1:
+./dump.go:14:33:   flow: _dumpCmd = *dumpCmd:
+./dump.go:14:33:     from *dumpCmd (indirection) at ./dump.go:17:14
+./dump.go:14:33:     from _dumpCmd := *dumpCmd (assign) at ./dump.go:17:11
+./dump.go:14:33:   flow: {storage for func literal} = _dumpCmd:
+./dump.go:14:33:     from _dumpCmd (captured by a closure) at ./dump.go:46:22
+./dump.go:14:33: parameter dumpCmd leaks to {storage for func literal} with derefs=1:
+./dump.go:14:33:   flow: _dumpCmd = *dumpCmd:
+./dump.go:14:33:     from *dumpCmd (indirection) at ./dump.go:17:14
+./dump.go:14:33:     from _dumpCmd := *dumpCmd (assign) at ./dump.go:17:11
+./dump.go:14:33:   flow: {storage for func literal} = _dumpCmd:
+./dump.go:14:33:     from _dumpCmd (captured by a closure) at ./dump.go:37:14
+./dump.go:14:21: args does not escape
+./dump.go:14:33: leaking param content: dumpCmd
+./dump.go:41:6: moved to heap: workWg
+./dump.go:56:6: moved to heap: writeWg
+./dump.go:35:5: func literal escapes to heap
+./dump.go:44:6: func literal escapes to heap
+./dump.go:50:5: func literal escapes to heap
+./dump.go:58:5: func literal escapes to heap
+./verify.go:140:32: ([]byte)(line) escapes to heap:
+./verify.go:140:32:   flow: {heap} = &{storage for ([]byte)(line)}:
+./verify.go:140:32:     from ([]byte)(line) (spill) at ./verify.go:140:32
+./verify.go:140:32:     from json.Unmarshal(([]byte)(line), &fileInfoOutput) (call parameter) at ./verify.go:140:24
+./verify.go:139:7: fileInfoOutput escapes to heap:
+./verify.go:139:7:   flow: {heap} = &fileInfoOutput:
+./verify.go:139:7:     from &fileInfoOutput (address-of) at ./verify.go:140:39
+./verify.go:139:7:     from &fileInfoOutput (interface-converted) at ./verify.go:140:39
+./verify.go:139:7:     from json.Unmarshal(([]byte)(line), &fileInfoOutput) (call parameter) at ./verify.go:140:24
+./verify.go:131:2: readPkgFile capturing by value: .autotmp_7 (addr=false assign=false width=8)
+./verify.go:150:54: pkgFilePath escapes to heap:
+./verify.go:150:54:   flow: {storage for ... argument} = &{storage for pkgFilePath}:
+./verify.go:150:54:     from pkgFilePath (spill) at ./verify.go:150:54
+./verify.go:150:54:     from ... argument (slice-literal-element) at ./verify.go:150:20
+./verify.go:150:54:   flow: {heap} = {storage for ... argument}:
+./verify.go:150:54:     from ... argument (spill) at ./verify.go:150:20
+./verify.go:150:54:     from fmt.Errorf("error reading pkg file %s: %w", ... argument...) (call parameter) at ./verify.go:150:20
+./verify.go:142:69: pkgFilePath escapes to heap:
+./verify.go:142:69:   flow: {storage for ... argument} = &{storage for pkgFilePath}:
+./verify.go:142:69:     from pkgFilePath (spill) at ./verify.go:142:69
+./verify.go:142:69:     from ... argument (slice-literal-element) at ./verify.go:142:21
+./verify.go:142:69:   flow: {heap} = {storage for ... argument}:
+./verify.go:142:69:     from ... argument (spill) at ./verify.go:142:21
+./verify.go:142:69:     from fmt.Errorf("failed to unmarshal line in pkg file %s: %w", ... argument...) (call parameter) at ./verify.go:142:21
+./verify.go:129:55: pkgFilePath escapes to heap:
+./verify.go:129:55:   flow: {storage for ... argument} = &{storage for pkgFilePath}:
+./verify.go:129:55:     from pkgFilePath (spill) at ./verify.go:129:55
+./verify.go:129:55:     from ... argument (slice-literal-element) at ./verify.go:129:20
+./verify.go:129:55:   flow: {heap} = {storage for ... argument}:
+./verify.go:129:55:     from ... argument (spill) at ./verify.go:129:20
+./verify.go:129:55:     from fmt.Errorf("failed to open pkg file %s: %w", ... argument...) (call parameter) at ./verify.go:129:20
+./verify.go:126:18: parameter pkgFilePath leaks to {heap} with derefs=0:
+./verify.go:126:18:   flow: os.name = pkgFilePath:
+./verify.go:126:18:     from os.name := pkgFilePath (assign-pair) at ./verify.go:127:22
+./verify.go:126:18:   flow: {heap} = os.name:
+./verify.go:126:18:     from os.OpenFile(os.name, 0, fs.FileMode(0)) (call parameter) at ./verify.go:127:22
+./verify.go:126:18: parameter pkgFilePath leaks to {storage for pkgFilePath} with derefs=0:
+./verify.go:126:18:   flow: {storage for pkgFilePath} = pkgFilePath:
+./verify.go:126:18:     from pkgFilePath (interface-converted) at ./verify.go:150:54
+./verify.go:126:18: parameter pkgFilePath leaks to {storage for pkgFilePath} with derefs=0:
+./verify.go:126:18:   flow: {storage for pkgFilePath} = pkgFilePath:
+./verify.go:126:18:     from pkgFilePath (interface-converted) at ./verify.go:142:69
+./verify.go:126:18: parameter pkgFilePath leaks to {storage for pkgFilePath} with derefs=0:
+./verify.go:126:18:   flow: {storage for pkgFilePath} = pkgFilePath:
+./verify.go:126:18:     from pkgFilePath (interface-converted) at ./verify.go:129:55
+./verify.go:126:18: leaking param: pkgFilePath
+./verify.go:126:38: outMap does not escape
+./verify.go:139:7: moved to heap: fileInfoOutput
+./verify.go:129:20: ... argument does not escape
+./verify.go:129:55: pkgFilePath escapes to heap
+./verify.go:134:29: &bufio.Scanner{...} does not escape
+./verify.go:136:23: string(bufio.s.token) does not escape
+./verify.go:140:32: ([]byte)(line) escapes to heap
+./verify.go:142:21: ... argument does not escape
+./verify.go:142:69: pkgFilePath escapes to heap
+./verify.go:150:20: ... argument does not escape
+./verify.go:150:54: pkgFilePath escapes to heap
+./verify.go:179:59: fullPath escapes to heap:
+./verify.go:179:59:   flow: {storage for ... argument} = &{storage for fullPath}:
+./verify.go:179:59:     from fullPath (spill) at ./verify.go:179:59
+./verify.go:179:59:     from ... argument (slice-literal-element) at ./verify.go:179:22
+./verify.go:179:59:   flow: {heap} = {storage for ... argument}:
+./verify.go:179:59:     from ... argument (spill) at ./verify.go:179:22
+./verify.go:179:59:     from fmt.Errorf("error processing pkg file %s: %w", ... argument...) (call parameter) at ./verify.go:179:22
+./verify.go:168:62: inputDir escapes to heap:
+./verify.go:168:62:   flow: {storage for ... argument} = &{storage for inputDir}:
+./verify.go:168:62:     from inputDir (spill) at ./verify.go:168:62
+./verify.go:168:62:     from ... argument (slice-literal-element) at ./verify.go:168:20
+./verify.go:168:62:   flow: {heap} = {storage for ... argument}:
+./verify.go:168:62:     from ... argument (spill) at ./verify.go:168:20
+./verify.go:168:62:     from fmt.Errorf("failed to read input directory %s: %w", ... argument...) (call parameter) at ./verify.go:168:20
+./verify.go:165:25: parameter inputDir leaks to {heap} with derefs=0:
+./verify.go:165:25:   flow: {heap} = inputDir:
+./verify.go:165:25:     from os.ReadDir(inputDir) (call parameter) at ./verify.go:166:28
+./verify.go:165:25: parameter inputDir leaks to {storage for inputDir} with derefs=0:
+./verify.go:165:25:   flow: {storage for inputDir} = inputDir:
+./verify.go:165:25:     from inputDir (interface-converted) at ./verify.go:168:62
+./verify.go:165:25: leaking param: inputDir
+./verify.go:165:42: outMap does not escape
+./verify.go:168:20: ... argument does not escape
+./verify.go:168:62: inputDir escapes to heap
+./verify.go:174:29: ... argument does not escape
+./verify.go:179:22: ... argument does not escape
+./verify.go:179:59: fullPath escapes to heap
+./verify.go:202:63: pkgFile escapes to heap:
+./verify.go:202:63:   flow: {storage for ... argument} = &{storage for pkgFile}:
+./verify.go:202:63:     from pkgFile (spill) at ./verify.go:202:63
+./verify.go:202:63:     from ... argument (slice-literal-element) at ./verify.go:202:26
+./verify.go:202:63:   flow: {heap} = {storage for ... argument}:
+./verify.go:202:63:     from ... argument (spill) at ./verify.go:202:26
+./verify.go:202:63:     from fmt.Errorf("error processing pkg file %s: %w", ... argument...) (call parameter) at ./verify.go:202:26
+./verify.go:187:36: parameter pkgFiles leaks to {heap} with derefs=1:
+./verify.go:187:36:   flow: {temp} = pkgFiles:
+./verify.go:187:36:   flow: pkgFile = *{temp}:
+./verify.go:187:36:     from for loop (range-deref) at ./verify.go:199:20
+./verify.go:187:36:   flow: {heap} = pkgFile:
+./verify.go:187:36:     from readPkgFile(pkgFile, pkgMap) (call parameter) at ./verify.go:200:21
+./verify.go:187:19: parameter inputDir leaks to {heap} with derefs=0:
+./verify.go:187:19:   flow: {heap} = inputDir:
+./verify.go:187:19:     from scanInputDirForPkg(inputDir, pkgMap) (call parameter) at ./verify.go:192:28
+./verify.go:187:36: parameter pkgFiles leaks to {storage for pkgFile} with derefs=1:
+./verify.go:187:36:   flow: {temp} = pkgFiles:
+./verify.go:187:36:   flow: pkgFile = *{temp}:
+./verify.go:187:36:     from for loop (range-deref) at ./verify.go:199:20
+./verify.go:187:36:   flow: {storage for pkgFile} = pkgFile:
+./verify.go:187:36:     from pkgFile (interface-converted) at ./verify.go:202:63
+./verify.go:189:16: make(map[string]FileInfoOutput) escapes to heap:
+./verify.go:189:16:   flow: pkgMap = &{storage for make(map[string]FileInfoOutput)}:
+./verify.go:189:16:     from make(map[string]FileInfoOutput) (spill) at ./verify.go:189:16
+./verify.go:189:16:     from pkgMap := make(map[string]FileInfoOutput) (assign) at ./verify.go:189:9
+./verify.go:189:16:   flow: ~r0 = pkgMap:
+./verify.go:189:16:     from return pkgMap, nil (return) at ./verify.go:206:2
+./verify.go:187:19: leaking param: inputDir
+./verify.go:187:36: leaking param content: pkgFiles
+./verify.go:189:16: make(map[string]FileInfoOutput) escapes to heap
+./verify.go:194:26: ... argument does not escape
+./verify.go:202:26: ... argument does not escape
+./verify.go:202:63: pkgFile escapes to heap
+./verify.go:157:16: hexStr does not escape
+./verify.go:229:2: compareFile capturing by value: .autotmp_11 (addr=false assign=false width=8)
+./verify.go:257:42: make([]byte, ~r0) escapes to heap:
+./verify.go:257:42:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./verify.go:257:42:     from make([]byte, ~r0) (non-constant size) at ./verify.go:257:42
+./verify.go:258:40: make([]byte, ~r0) escapes to heap:
+./verify.go:258:40:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./verify.go:258:40:     from make([]byte, ~r0) (non-constant size) at ./verify.go:258:40
+./verify.go:264:44: make([]byte, ~r0) escapes to heap:
+./verify.go:264:44:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./verify.go:264:44:     from make([]byte, ~r0) (non-constant size) at ./verify.go:264:44
+./verify.go:265:42: make([]byte, ~r0) escapes to heap:
+./verify.go:265:42:   flow: {heap} = &{storage for make([]byte, ~r0)}:
+./verify.go:265:42:     from make([]byte, ~r0) (non-constant size) at ./verify.go:265:42
+./verify.go:212:21: make([]byte, 0, 500) escapes to heap:
+./verify.go:212:21:   flow: zerolog.l = &{storage for make([]byte, 0, 500)}:
+./verify.go:212:21:     from make([]byte, 0, 500) (spill) at ./verify.go:212:21
+./verify.go:212:21:     from zerolog.l.context = make([]byte, 0, 500) (assign) at ./verify.go:212:21
+./verify.go:212:21:   flow: ~r0 = zerolog.l:
+./verify.go:212:21:     from zerolog.Context{...} (struct literal element) at ./verify.go:212:21
+./verify.go:212:21:     from ~r0 = zerolog.Context{...} (assign-pair) at ./verify.go:212:21
+./verify.go:212:21:   flow: ~r0 = ~r0:
+./verify.go:212:21:     from ~r0 = ~r0 (assign-pair) at ./verify.go:212:21
+./verify.go:212:21:   flow: {temp} = ~r0:
+./verify.go:212:21:     from zerolog.Context.Str(~r0, "file", filePathAbs) (call parameter) at ./verify.go:212:27
+./verify.go:212:21:   flow: zerolog.c = {temp}:
+./verify.go:212:21:     from zerolog.c := zerolog.Context.Str(~r0, "file", filePathAbs) (assign-pair) at ./verify.go:212:55
+./verify.go:212:21:   flow: ~r0 = zerolog.c:
+./verify.go:212:21:     from zerolog.c.l (dot) at ./verify.go:212:55
+./verify.go:212:21:     from ~r0 = zerolog.c.l (assign-pair) at ./verify.go:212:55
+./verify.go:212:21:   flow: baseLog = ~r0:
+./verify.go:212:21:     from baseLog := ~r0 (assign) at ./verify.go:212:10
+./verify.go:212:21:   flow: zerolog.l = &baseLog:
+./verify.go:212:21:     from baseLog (address-of) at ./verify.go:270:9
+./verify.go:212:21:     from zerolog.l := baseLog (assign-pair) at ./verify.go:270:15
+./verify.go:212:21:   flow: {heap} = *zerolog.l:
+./verify.go:212:21:     from (*zerolog.Logger).newEvent(zerolog.l, zerolog.Level(-1), nil) (call parameter) at ./verify.go:270:15
+./verify.go:210:18: basedir does not escape
+./verify.go:210:34: file does not escape
+./verify.go:211:30: ... argument does not escape
+./verify.go:212:21: make([]byte, 0, 500) escapes to heap
+./verify.go:255:17: string(bytes.a) does not escape
+./verify.go:255:17: string(bytes.b) does not escape
+./verify.go:257:42: make([]byte, ~r0) escapes to heap
+./verify.go:257:42: string(hex.dst) does not escape
+./verify.go:258:40: make([]byte, ~r0) escapes to heap
+./verify.go:258:40: string(hex.dst) does not escape
+./verify.go:262:17: string(bytes.a) does not escape
+./verify.go:262:17: string(bytes.b) does not escape
+./verify.go:264:44: make([]byte, ~r0) escapes to heap
+./verify.go:264:44: string(hex.dst) does not escape
+./verify.go:265:42: make([]byte, ~r0) escapes to heap
+./verify.go:265:42: string(hex.dst) does not escape
+./verify.go:75:6: workWg escapes to heap:
+./verify.go:75:6:   flow: {heap} = &workWg:
+./verify.go:75:6:     from workWg (address-of) at ./verify.go:77:8
+./verify.go:75:6:     from (*sync.WaitGroup).Add(workWg, _args.Threads) (call parameter) at ./verify.go:77:12
+./verify.go:79:6: func literal escapes to heap:
+./verify.go:79:6:   flow: {heap} = &{storage for func literal}:
+./verify.go:79:6:     from func literal (spill) at ./verify.go:79:6
+./verify.go:75:6: workWg escapes to heap:
+./verify.go:75:6:   flow: {heap} = &workWg:
+./verify.go:75:6:     from workWg (address-of) at ./verify.go:98:8
+./verify.go:75:6:     from (*sync.WaitGroup).Wait(workWg) (call parameter) at ./verify.go:98:13
+./verify.go:75:6: subcommandVerify capturing by ref: workWg (addr=true assign=false width=16)
+./verify.go:75:6: workWg escapes to heap:
+./verify.go:75:6:   flow: {storage for func literal} = &workWg:
+./verify.go:75:6:     from workWg (captured by a closure) at ./verify.go:80:10
+./verify.go:75:6:     from workWg (reference) at ./verify.go:80:10
+./verify.go:73:2: subcommandVerify capturing by value: workQueue (addr=false assign=false width=8)
+./verify.go:39:2: subcommandVerify capturing by ref: _verifyCmd (addr=false assign=true width=48)
+./verify.go:39:2: _verifyCmd escapes to heap:
+./verify.go:39:2:   flow: {storage for func literal} = &_verifyCmd:
+./verify.go:39:2:     from _verifyCmd (captured by a closure) at ./verify.go:82:30
+./verify.go:39:2:     from _verifyCmd (reference) at ./verify.go:82:30
+./verify.go:72:6: subcommandVerify capturing by ref: resultsMutex (addr=true assign=false width=8)
+./verify.go:72:6: resultsMutex escapes to heap:
+./verify.go:72:6:   flow: {storage for func literal} = &resultsMutex:
+./verify.go:72:6:     from resultsMutex (captured by a closure) at ./verify.go:84:6
+./verify.go:72:6:     from resultsMutex (reference) at ./verify.go:84:6
+./verify.go:71:6: subcommandVerify capturing by ref: results (addr=false assign=true width=24)
+./verify.go:71:6: results escapes to heap:
+./verify.go:71:6:   flow: {storage for func literal} = &results:
+./verify.go:71:6:     from results (captured by a closure) at ./verify.go:85:6
+./verify.go:71:6:     from results (reference) at ./verify.go:85:6
+./verify.go:80:16: subcommandVerify.func3 capturing by value: .autotmp_0 (addr=false assign=false width=8)
+./verify.go:45:30: make([]go.shape.string, len(lo.collection)) escapes to heap:
+./verify.go:45:30:   flow: {heap} = &{storage for make([]go.shape.string, len(lo.collection))}:
+./verify.go:45:30:     from make([]go.shape.string, len(lo.collection)) (non-constant size) at ./verify.go:45:30
+./verify.go:101:22: make([]byte, 0, 500) escapes to heap:
+./verify.go:101:22:   flow: zerolog.l = &{storage for make([]byte, 0, 500)}:
+./verify.go:101:22:     from make([]byte, 0, 500) (spill) at ./verify.go:101:22
+./verify.go:101:22:     from zerolog.l.context = make([]byte, 0, 500) (assign) at ./verify.go:101:22
+./verify.go:101:22:   flow: ~r0 = zerolog.l:
+./verify.go:101:22:     from zerolog.Context{...} (struct literal element) at ./verify.go:101:22
+./verify.go:101:22:     from ~r0 = zerolog.Context{...} (assign-pair) at ./verify.go:101:22
+./verify.go:101:22:   flow: ~r0 = ~r0:
+./verify.go:101:22:     from ~r0 = ~r0 (assign-pair) at ./verify.go:101:22
+./verify.go:101:22:   flow: {temp} = ~r0:
+./verify.go:101:22:     from zerolog.Context.Str(~r0, "file", res.FilePath) (call parameter) at ./verify.go:102:7
+./verify.go:101:22:   flow: zerolog.c = {temp}:
+./verify.go:101:22:     from zerolog.c := zerolog.Context.Str(~r0, "file", res.FilePath) (assign-pair) at ./verify.go:103:10
+./verify.go:101:22:   flow: ~r0 = zerolog.c:
+./verify.go:101:22:     from zerolog.c.l (dot) at ./verify.go:103:10
+./verify.go:101:22:     from ~r0 = zerolog.c.l (assign-pair) at ./verify.go:103:10
+./verify.go:101:22:   flow: baseLog = ~r0:
+./verify.go:101:22:     from baseLog := ~r0 (assign) at ./verify.go:101:11
+./verify.go:101:22:   flow: zerolog.l = &baseLog:
+./verify.go:101:22:     from baseLog (address-of) at ./verify.go:121:11
+./verify.go:101:22:     from zerolog.l := baseLog (assign-pair) at ./verify.go:121:17
+./verify.go:101:22:   flow: {heap} = *zerolog.l:
+./verify.go:101:22:     from (*zerolog.Logger).newEvent(zerolog.l, zerolog.Level(3), nil) (call parameter) at ./verify.go:121:17
+./verify.go:36:35: parameter verifyCmd leaks to _verifyCmd with derefs=1:
+./verify.go:36:35:   flow: _verifyCmd = *verifyCmd:
+./verify.go:36:35:     from *verifyCmd (indirection) at ./verify.go:39:16
+./verify.go:36:35:     from _verifyCmd := *verifyCmd (assign) at ./verify.go:39:13
+./verify.go:36:23: args does not escape
+./verify.go:36:35: leaking param content: verifyCmd
+./verify.go:39:2: moved to heap: _verifyCmd
+./verify.go:71:6: moved to heap: results
+./verify.go:72:6: moved to heap: resultsMutex
+./verify.go:75:6: moved to heap: workWg
+./verify.go:45:30: make([]go.shape.string, len(lo.collection)) escapes to heap
+./verify.go:56:25: make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) does not escape
+./verify.go:79:6: func literal escapes to heap
+./verify.go:101:22: make([]byte, 0, 500) escapes to heap
+./mirror.go:81:28: file escapes to heap:
+./mirror.go:81:28:   flow: {heap} = &{storage for file}:
+./mirror.go:81:28:     from file (spill) at ./mirror.go:81:28
+./mirror.go:81:28:     from json.Marshal(file) (call parameter) at ./mirror.go:81:27
+./mirror.go:65:33: parameter file leaks to {storage for file} with derefs=0:
+./mirror.go:65:33:   flow: {storage for file} = file:
+./mirror.go:65:33:     from file (interface-converted) at ./mirror.go:81:28
+./mirror.go:65:17: baseDir does not escape
+./mirror.go:65:33: leaking param: file
+./mirror.go:67:29: ... argument does not escape
+./mirror.go:67:52: file.FilePath + ".json" does not escape
+./mirror.go:81:28: file escapes to heap
+./mirror.go:44:6: workWg escapes to heap:
+./mirror.go:44:6:   flow: {heap} = &workWg:
+./mirror.go:44:6:     from workWg (address-of) at ./mirror.go:46:8
+./mirror.go:44:6:     from (*sync.WaitGroup).Add(workWg, _args.Threads) (call parameter) at ./mirror.go:46:12
+./mirror.go:48:6: func literal escapes to heap:
+./mirror.go:48:6:   flow: {heap} = &{storage for func literal}:
+./mirror.go:48:6:     from func literal (spill) at ./mirror.go:48:6
+./mirror.go:44:6: workWg escapes to heap:
+./mirror.go:44:6:   flow: {heap} = &workWg:
+./mirror.go:44:6:     from workWg (address-of) at ./mirror.go:62:8
+./mirror.go:44:6:     from (*sync.WaitGroup).Wait(workWg) (call parameter) at ./mirror.go:62:13
+./mirror.go:44:6: subcommandMirror capturing by ref: workWg (addr=true assign=false width=16)
+./mirror.go:44:6: workWg escapes to heap:
+./mirror.go:44:6:   flow: {storage for func literal} = &workWg:
+./mirror.go:44:6:     from workWg (captured by a closure) at ./mirror.go:49:10
+./mirror.go:44:6:     from workWg (reference) at ./mirror.go:49:10
+./mirror.go:42:2: subcommandMirror capturing by value: workQueue (addr=false assign=false width=8)
+./mirror.go:16:2: subcommandMirror capturing by ref: _mirrorCmd (addr=false assign=true width=40)
+./mirror.go:16:2: _mirrorCmd escapes to heap:
+./mirror.go:16:2:   flow: {storage for func literal} = &_mirrorCmd:
+./mirror.go:16:2:     from _mirrorCmd (captured by a closure) at ./mirror.go:51:16
+./mirror.go:16:2:     from _mirrorCmd (reference) at ./mirror.go:51:16
+./mirror.go:49:16: subcommandMirror.func2 capturing by value: .autotmp_0 (addr=false assign=false width=8)
+./mirror.go:22:30: make([]go.shape.string, len(lo.collection)) escapes to heap:
+./mirror.go:22:30:   flow: {heap} = &{storage for make([]go.shape.string, len(lo.collection))}:
+./mirror.go:22:30:     from make([]go.shape.string, len(lo.collection)) (non-constant size) at ./mirror.go:22:30
+./mirror.go:13:35: parameter mirrorCmd leaks to _mirrorCmd with derefs=1:
+./mirror.go:13:35:   flow: _mirrorCmd = *mirrorCmd:
+./mirror.go:13:35:     from *mirrorCmd (indirection) at ./mirror.go:16:16
+./mirror.go:13:35:     from _mirrorCmd := *mirrorCmd (assign) at ./mirror.go:16:13
+./mirror.go:13:23: args does not escape
+./mirror.go:13:35: leaking param content: mirrorCmd
+./mirror.go:16:2: moved to heap: _mirrorCmd
+./mirror.go:44:6: moved to heap: workWg
+./mirror.go:22:30: make([]go.shape.string, len(lo.collection)) escapes to heap
+./mirror.go:32:16: make(map[string]FileInfoOutput) does not escape
+./mirror.go:48:6: func literal escapes to heap
+./dump-pkg_version.go:75:47: zerolog.ConsoleWriter{...} escapes to heap:
+./dump-pkg_version.go:75:47:   flow: log.w = &{storage for zerolog.ConsoleWriter{...}}:
+./dump-pkg_version.go:75:47:     from zerolog.ConsoleWriter{...} (spill) at ./dump-pkg_version.go:75:47
+./dump-pkg_version.go:75:47:     from log.w := zerolog.ConsoleWriter{...} (assign-pair) at ./dump-pkg_version.go:75:25
+./dump-pkg_version.go:75:47:   flow: {heap} = log.w:
+./dump-pkg_version.go:75:47:     from zerolog.Logger.Output(log.Logger, log.w) (call parameter) at ./dump-pkg_version.go:75:25
+./dump-pkg_version.go:72:3: args escapes to heap:
+./dump-pkg_version.go:72:3:   flow: {storage for ... argument} = &args:
+./dump-pkg_version.go:72:3:     from &args (address-of) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3:     from &args (interface-converted) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3:     from ... argument (slice-literal-element) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3:   flow: arg.dest = &{storage for ... argument}:
+./dump-pkg_version.go:72:3:     from ... argument (spill) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3:     from arg.dest := ... argument (assign-pair) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3:   flow: {heap} = *arg.dest:
+./dump-pkg_version.go:72:3:     from arg.mustParse(arg.Config{...}, arg.dest...) (call parameter) at ./dump-pkg_version.go:72:3
+./dump-pkg_version.go:72:3: moved to heap: args
+./dump-pkg_version.go:72:3: ... argument does not escape
+./dump-pkg_version.go:75:47: zerolog.ConsoleWriter{...} escapes to heap
+C:\Program Files\Go\src\sync\atomic\type.go:63:42: parameter atomic.new leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:   flow: {heap} = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:64:30
+C:\Program Files\Go\src\sync\atomic\type.go:63:37: parameter atomic.old leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:   flow: {heap} = atomic.old:
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:64:30
+C:\Program Files\Go\src\sync\atomic\type.go:63:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:64:33
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:64:31
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:64:30
+C:\Program Files\Go\src\sync\atomic\type.go:60:27: parameter atomic.new leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:   flow: {heap} = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:     from atomic.SwapPointer(&atomic.x.v, unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:60:69
+C:\Program Files\Go\src\sync\atomic\type.go:60:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:60:72
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:60:70
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from atomic.SwapPointer(&atomic.x.v, unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:60:69
+C:\Program Files\Go\src\sync\atomic\type.go:57:28: parameter atomic.val leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:   flow: {heap} = atomic.val:
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:     from atomic.StorePointer(&atomic.x.v, unsafe.Pointer(atomic.val)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:57:50
+C:\Program Files\Go\src\sync\atomic\type.go:57:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:57:53
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:57:51
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from atomic.StorePointer(&atomic.x.v, unsafe.Pointer(atomic.val)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:57:50
+C:\Program Files\Go\src\sync\atomic\type.go:54:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:54:60
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:54:58
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from atomic.LoadPointer(&atomic.x.v) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:54:57
+./verify.go:45:57: parameter path leaks to ~r0 with derefs=0:
+./verify.go:45:57:   flow: filepath.path = path:
+./verify.go:45:57:     from filepath.path := path (assign-pair) at ./verify.go:46:26
+./verify.go:45:57:   flow: filepathlite.path = filepath.path:
+./verify.go:45:57:     from filepathlite.path := filepath.path (assign-pair) at ./verify.go:46:26
+./verify.go:45:57:   flow: {temp} = filepathlite.path:
+./verify.go:45:57:     from filepathlite.replaceStringByte(filepathlite.path, byte(92), byte(47)) (call parameter) at ./verify.go:46:26
+./verify.go:45:57:   flow: ~r0 = {temp}:
+./verify.go:45:57:     from ~r0 = filepathlite.replaceStringByte(filepathlite.path, byte(92), byte(47)) (assign-pair) at ./verify.go:46:26
+./verify.go:45:57:   flow: ~r0 = ~r0:
+./verify.go:45:57:     from ~r0 = ~r0 (assign-pair) at ./verify.go:46:26
+./verify.go:45:57:   flow: ~r0 = ~r0:
+./verify.go:45:57:     from return ~r0 (return) at ./verify.go:46:3
+./verify.go:45:57: leaking param: path to result ~r0 level=0
+./verify.go:56:50: parameter v leaks to ~r1 with derefs=0:
+./verify.go:56:50:   flow: fileInfo = v:
+./verify.go:56:50:     from v.FilePath (dot) at ./verify.go:59:16
+./verify.go:56:50:     from FileInfo{...} (struct literal element) at ./verify.go:58:23
+./verify.go:56:50:     from fileInfo := FileInfo{...} (assign) at ./verify.go:58:12
+./verify.go:56:50:   flow: ~r1 = fileInfo:
+./verify.go:56:50:     from return k, fileInfo (return) at ./verify.go:64:3
+./verify.go:56:40: parameter k leaks to ~r0 with derefs=0:
+./verify.go:56:40:   flow: ~r0 = k:
+./verify.go:56:40:     from return k, fileInfo (return) at ./verify.go:64:3
+./verify.go:56:40: leaking param: k to result ~r0 level=0
+./verify.go:56:50: leaking param: v to result ~r1 level=0
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16: make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) escapes to heap:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16:   flow: lo.result = &{storage for make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in))}:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16:     from make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) (spill) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16:     from lo.result := make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) (assign) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:9
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16:   flow: lo.~r0 = lo.result:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16:     from return lo.result (return) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:314:2
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:307:16: make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) escapes to heap
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6: make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) escapes to heap:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:   flow: lo.result = &{storage for make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in))}:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:     from make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) (spill) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:     from lo.result := make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) (assign) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:   flow: lo.~r0 = lo.result:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:     from lo.~r0 = lo.result (assign-pair) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:   flow: lo.~r0 = lo.~r0:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6:     from return lo.~r0 (return) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/map.go:306:6: make(map[go.shape.string]go.shape.struct { FilePath string; Md5Hash []uint8; Xxh64Hash []uint8; Size int64 }, len(lo.in)) escapes to heap
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:27:16: make([]go.shape.string, len(lo.collection)) escapes to heap:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:27:16:   flow: {heap} = &{storage for make([]go.shape.string, len(lo.collection))}:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:27:16:     from make([]go.shape.string, len(lo.collection)) (non-constant size) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:27:16
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24: parameter lo.collection leaks to {heap} with derefs=1:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:   flow: {heap} = *lo.collection:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:     from lo.collection[lo.i] (dot of pointer) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:30:34
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:     from lo.iteratee(lo.collection[lo.i], lo.i) (call parameter) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:30:23
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:27:16: make([]go.shape.string, len(lo.collection)) escapes to heap
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6: make([]go.shape.string, len(lo.collection)) escapes to heap:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6:   flow: {heap} = &{storage for make([]go.shape.string, len(lo.collection))}:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6:     from make([]go.shape.string, len(lo.collection)) (non-constant size) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24: parameter lo.collection leaks to {heap} with derefs=1:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:   flow: lo.collection = lo.collection:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:     from lo..dict, lo.collection, lo.iteratee := &lo..dict.Map[string,string], lo.collection, lo.iteratee (assign-pair) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:   flow: {heap} = *lo.collection:
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:     from lo.collection[lo.i] (dot of pointer) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:24:     from lo.iteratee(lo.collection[lo.i], lo.i) (call parameter) at C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6
+C:/Users/GIGABYTE/go/pkg/mod/github.com/samber/lo@v1.49.1/slice.go:26:6: make([]go.shape.string, len(lo.collection)) escapes to heap
+./mirror.go:22:57: parameter path leaks to ~r0 with derefs=0:
+./mirror.go:22:57:   flow: filepath.path = path:
+./mirror.go:22:57:     from filepath.path := path (assign-pair) at ./mirror.go:23:26
+./mirror.go:22:57:   flow: filepathlite.path = filepath.path:
+./mirror.go:22:57:     from filepathlite.path := filepath.path (assign-pair) at ./mirror.go:23:26
+./mirror.go:22:57:   flow: {temp} = filepathlite.path:
+./mirror.go:22:57:     from filepathlite.replaceStringByte(filepathlite.path, byte(92), byte(47)) (call parameter) at ./mirror.go:23:26
+./mirror.go:22:57:   flow: ~r0 = {temp}:
+./mirror.go:22:57:     from ~r0 = filepathlite.replaceStringByte(filepathlite.path, byte(92), byte(47)) (assign-pair) at ./mirror.go:23:26
+./mirror.go:22:57:   flow: ~r0 = ~r0:
+./mirror.go:22:57:     from ~r0 = ~r0 (assign-pair) at ./mirror.go:23:26
+./mirror.go:22:57:   flow: ~r0 = ~r0:
+./mirror.go:22:57:     from return ~r0 (return) at ./mirror.go:23:3
+./mirror.go:22:57: leaking param: path to result ~r0 level=0
+C:\Program Files\Go\src\sync\atomic\type.go:63:42: parameter atomic.new leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:   flow: atomic.new = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:     from atomic.x, atomic..dict, atomic.old, atomic.new := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.old, atomic.new (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:   flow: {heap} = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:63:42:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:37: parameter atomic.old leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:   flow: atomic.old = atomic.old:
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:     from atomic.x, atomic..dict, atomic.old, atomic.new := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.old, atomic.new (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:   flow: {heap} = atomic.old:
+C:\Program Files\Go\src\sync\atomic\type.go:63:37:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:   flow: atomic.x = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from atomic.x, atomic..dict, atomic.old, atomic.new := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.old, atomic.new (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:63:7:     from atomic.CompareAndSwapPointer(&atomic.x.v, unsafe.Pointer(atomic.old), unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:63:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:27: parameter atomic.new leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:   flow: atomic.new = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:     from atomic.x, atomic..dict, atomic.new := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.new (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:   flow: {heap} = atomic.new:
+C:\Program Files\Go\src\sync\atomic\type.go:60:27:     from atomic.SwapPointer(&atomic.x.v, unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:   flow: atomic.x = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from atomic.x, atomic..dict, atomic.new := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.new (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:60:7:     from atomic.SwapPointer(&atomic.x.v, unsafe.Pointer(atomic.new)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:60:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:28: parameter atomic.val leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:   flow: atomic.val = atomic.val:
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:     from atomic.x, atomic..dict, atomic.val := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.val (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:   flow: {heap} = atomic.val:
+C:\Program Files\Go\src\sync\atomic\type.go:57:28:     from atomic.StorePointer(&atomic.x.v, unsafe.Pointer(atomic.val)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:   flow: atomic.x = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from atomic.x, atomic..dict, atomic.val := atomic.x, &atomic..dict.Pointer[os.dirInfo], atomic.val (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:57:7:     from atomic.StorePointer(&atomic.x.v, unsafe.Pointer(atomic.val)) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:57:6
+C:\Program Files\Go\src\sync\atomic\type.go:54:7: parameter atomic.x leaks to {heap} with derefs=0:
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:   flow: atomic.x = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from atomic.x, atomic..dict := atomic.x, &atomic..dict.Pointer[os.dirInfo] (assign-pair) at C:\Program Files\Go\src\sync\atomic\type.go:54:6
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:   flow: {heap} = atomic.x:
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from atomic.x.v (dot of pointer) at C:\Program Files\Go\src\sync\atomic\type.go:54:6
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from &atomic.x.v (address-of) at C:\Program Files\Go\src\sync\atomic\type.go:54:6
+C:\Program Files\Go\src\sync\atomic\type.go:54:7:     from atomic.LoadPointer(&atomic.x.v) (call parameter) at C:\Program Files\Go\src\sync\atomic\type.go:54:6
+./dump-pkg_version.go:69:7: args escapes to heap:
+./dump-pkg_version.go:69:7:   flow: {storage for ... argument} = &args:
+./dump-pkg_version.go:69:7:     from &args (address-of) at ./dump-pkg_version.go:70:17
+./dump-pkg_version.go:69:7:     from &args (interface-converted) at ./dump-pkg_version.go:70:17
+./dump-pkg_version.go:69:7:     from ... argument (slice-literal-element) at ./dump-pkg_version.go:70:16
+./dump-pkg_version.go:69:7:   flow: arg.dest = &{storage for ... argument}:
+./dump-pkg_version.go:69:7:     from ... argument (spill) at ./dump-pkg_version.go:70:16
+./dump-pkg_version.go:69:7:     from arg.dest := ... argument (assign-pair) at ./dump-pkg_version.go:70:16
+./dump-pkg_version.go:69:7:   flow: {heap} = *arg.dest:
+./dump-pkg_version.go:69:7:     from arg.mustParse(arg.Config{...}, arg.dest...) (call parameter) at ./dump-pkg_version.go:70:16
+./dump-pkg_version.go:69:7: moved to heap: args
+./dump-pkg_version.go:70:16: ... argument does not escape
+<autogenerated>:1: &reflect.ValueError{...} escapes to heap:
+<autogenerated>:1:   flow: {heap} = &{storage for &reflect.ValueError{...}}:
+<autogenerated>:1:     from &reflect.ValueError{...} (spill) at <autogenerated>:1
+<autogenerated>:1:     from &reflect.ValueError{...} (interface-converted) at <autogenerated>:1
+<autogenerated>:1:     from panic(&reflect.ValueError{...}) (call parameter) at <autogenerated>:1
+<autogenerated>:1: &reflect.ValueError{...} escapes to heap
+<autogenerated>:1: &reflect.ValueError{...} escapes to heap:
+<autogenerated>:1:   flow: {heap} = &{storage for &reflect.ValueError{...}}:
+<autogenerated>:1:     from &reflect.ValueError{...} (spill) at <autogenerated>:1
+<autogenerated>:1:     from &reflect.ValueError{...} (interface-converted) at <autogenerated>:1
+<autogenerated>:1:     from panic(&reflect.ValueError{...}) (call parameter) at <autogenerated>:1
+<autogenerated>:1: &reflect.ValueError{...} escapes to heap
+./dump.go:82:33: index bounds check elided
+./dump.go:82:33: index bounds check elided
+./dump.go:83:33: index bounds check elided
+./dump.go:83:33: index bounds check elided
+./verify.go:257:42: index bounds check elided
+./verify.go:257:42: index bounds check elided
+./verify.go:258:40: index bounds check elided
+./verify.go:258:40: index bounds check elided
+./verify.go:264:44: index bounds check elided
+./verify.go:264:44: index bounds check elided
+./verify.go:265:42: index bounds check elided
+./verify.go:265:42: index bounds check elided
